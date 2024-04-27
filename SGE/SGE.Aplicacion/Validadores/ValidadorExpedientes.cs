@@ -1,10 +1,10 @@
 namespace SGE.Aplicacion;
 
-class ValidadorTramites
+class ValidadorExpedientes
 {
-    public static void ValidarTramite(Tramite t)
+    public static void ValidarExpediente(Expediente e)
     {
-        if(t.Contenido == null)
+        if(e.Caratula == null)
         {
             string mensaje="A fallado la validacion";
             throw new ValidacionException(mensaje);
