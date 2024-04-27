@@ -8,5 +8,5 @@ class Expediente
     public DateTime FechaActualizacion;
     public int IDUsuario;
     public EstadoExpediente Estado;
-    public List<Tramite>? tramites;
+    public List<Tramite>? Tramites;
 }
