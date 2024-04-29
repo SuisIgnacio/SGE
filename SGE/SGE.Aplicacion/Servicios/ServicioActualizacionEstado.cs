@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-class ServicioActualizacionEstado
+public class ServicioActualizacionEstado
 {
     public void ActualizacionEstado(Expediente e)
     {
