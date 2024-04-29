@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-class Tramite
+public class Tramite
 {
     public static int IDTramite=0;
     public static int IDExpediente;
