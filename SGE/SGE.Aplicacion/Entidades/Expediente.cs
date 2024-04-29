@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-class Expediente
+public class Expediente
 {
     public static int IDExpediente=0;
     public string? Caratula;
