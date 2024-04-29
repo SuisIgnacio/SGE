@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-enum Permisos
+public enum Permisos
 {
     ExpedienteAlta,ExpedienteBaja,ExpedienteModificacion,TramiteAlta,TramiteBaja,
     TramiteModificacion
