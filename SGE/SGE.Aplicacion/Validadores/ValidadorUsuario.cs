@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-class ValidadorUsuario
+public class ValidadorUsuario
 {
     public static void ValidarUsuario(int i)
     {
