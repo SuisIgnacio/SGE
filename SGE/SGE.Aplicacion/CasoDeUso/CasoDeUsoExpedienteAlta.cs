@@ -1,4 +1,4 @@
-namespace SGE.Aplicacion ;
+namespace SGE.Aplicacion;
 
 public class CasoDeUsoExpedienteAlta (IExpedienteRepositorio repo)
 {
