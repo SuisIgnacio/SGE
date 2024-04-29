@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion; 
 
-interface IServicioAutorizacion 
+public interface IServicioAutorizacion 
 {
     public Boolean autoriza (int var);
 }
