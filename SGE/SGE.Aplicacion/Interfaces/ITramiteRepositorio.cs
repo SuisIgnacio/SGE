@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-interface ITramiteRepositorio
+public interface ITramiteRepositorio
 {
     void TramiteBaja(Tramite t);
     void TramiteAlta(Tramite t);
