@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-enum EtiquetaTramite
+public enum EtiquetaTramite
 {
     EscritoPresentado, PaseAEstudio, Despacho, Resolucion, Notificacion,PaseAlArchivo
 }
