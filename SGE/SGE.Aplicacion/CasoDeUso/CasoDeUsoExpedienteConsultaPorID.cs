@@ -2,8 +2,8 @@ namespace SGE.Aplicacion;
 
 public class CasoDeUsoExpedienteConsultaPorID (IExpedienteRepositorio repo) 
 {
-    public Expediente Ejecutar (in id) 
+    public Expediente Ejecutar (int id) 
     {
-        repo.ConsultarPorID(id) ;
+        return repo.ConsultarPorID(id);
     }
 }
