@@ -3,19 +3,19 @@ using SGE.Aplicacion;
 
 public class RepositorioTramiteTXT:ITramiteRepositorio,IServicioAutorizacion
 {
-    void TramiteBaja(Tramite t)
+    public void TramiteBaja(Tramite t)
     {
 
     }
-    void TramiteAlta(Tramite t)
+    public void TramiteAlta(Tramite t)
     {
 
     }
-    List<Tramite> TramiteConsultaPorEtiqueta(EtiquetaTramite i)
+    public List<Tramite> TramiteConsultaPorEtiqueta(EtiquetaTramite i)
     {
 
     }
-    void TramiteModificacion(Tramite t)
+    public void TramiteModificacion(Tramite t)
     {
 
     }
