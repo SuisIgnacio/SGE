@@ -43,6 +43,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
         sw.WriteLine(e.FechaActualizacion);
         sw.WriteLine(e.IDUsuario);
         sw.WriteLine(Convert.ToInt32(e.Estado));
+        se.Close();
     }
     public Expediente ConsultaPorID(int IDExpediente)
     {
