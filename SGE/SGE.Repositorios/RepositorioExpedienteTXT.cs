@@ -7,10 +7,10 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
     private string path = "expediente.txt";
     public void BajaExpediente(int IDExpediente)
     {
-        string archAux="temp.txt";
-        File.CreateText(archAux);
-        using var sr=new StreamReader(_nombreArch);
-        using var sw=new StreamWriter(archAux,false);
+        string pathaux="temp.txt";
+        File.CreateText(pathaux);
+        using var sr=new StreamReader(path);
+        using var sw=new StreamWriter(pathaux,false);
         int IDactual;
         bool found = false;
         while (!sr.EndOfStream && !found)
@@ -41,7 +41,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
         sw.WriteLine(e.FechaActualizacion);
         sw.WriteLine(e.IDUsuario);
         sw.WriteLine(Convert.ToInt32(e.Estado));
-        se.Close();
+        sw.Close();
     }
     public Expediente ConsultaPorID(int IDExpediente)
     {
@@ -83,13 +83,15 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
             expedienteRetorno.Estado =(EstadoExpediente) Convert.ToInt32 (sr.ReadLine());
             listaExpedientes.Add(expedienteRetorno);
         }
-        se.Close();
+        sr.Close();
         return listaExpedientes;
     }
     public void ModificarExpediente(Expediente e)
     {
-        using var sr = new StreamReader(path);
-        using var sw = new StreamWriter(pathaux, false);
+        string pathaux="temp.txt";
+        File.CreateText(pathaux);
+        using var sr=new StreamReader(path);
+        using var sw=new StreamWriter(pathaux,false);
         int IDactual;
         bool found = false;
         while (!sr.EndOfStream && !found)
