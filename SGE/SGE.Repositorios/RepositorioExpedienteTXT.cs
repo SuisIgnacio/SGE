@@ -5,11 +5,12 @@ using System.Reflection.PortableExecutable;
 public class RepositorioExpedienteTXT : IExpedienteRepositorio
 {
     private string path = "expediente.txt";
-    private string pathaux = "aux.txt";
     public void BajaExpediente(int IDExpediente)
     {
-        using var sr = new StreamReader(path);
-        using var sw = new StreamWriter(pathaux,false);
+        string archAux="temp.txt";
+        File.CreateText(archAux);
+        using var sr=new StreamReader(_nombreArch);
+        using var sw=new StreamWriter(archAux,false);
         int IDactual;
         bool found = false;
         while (!sr.EndOfStream && !found)
