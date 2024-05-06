@@ -19,15 +19,12 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
             if (IDactual == IDExpediente)
             {
                 found = true;
-//falta terminar de leer el Expediente hasta el próximo ID
+                for (int i = 0; i < 5; i++) sr.ReadLine();
             }
             else
             {
                 sw.WriteLine(IDactual);
-                for (int i = 0; i < 5; i++)
-                {
-                    sw.WriteLine(sr.ReadLine());
-                }
+                for (int i = 0; i < 5; i++) sw.WriteLine(sr.ReadLine());
             }
         }
         sr.Close();
