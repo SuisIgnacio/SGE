@@ -85,6 +85,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
             expedienteRetorno.Estado =(EstadoExpediente) Convert.ToInt32 (sr.ReadLine());
             listaExpedientes.Add(expedienteRetorno);
         }
+        se.Close();
         return listaExpedientes;
     }
     public void ModificarExpediente(Expediente e)
