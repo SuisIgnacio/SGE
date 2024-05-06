@@ -7,7 +7,7 @@ public class RepositorioTramiteTXT:ITramiteRepositorio
     public void TramiteBaja(int IDTramite)
     {
         readonly string archAux="temp.txt";
-        using var sr=new StringReader(_nombreArch);
+        using var sr=new StreamReader(_nombreArch);
         using var sw=new StreamWriter(File.CreateText(archAux),true);
         int IDactual;
         bool found=false;
