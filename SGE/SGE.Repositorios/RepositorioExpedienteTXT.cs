@@ -18,7 +18,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
             if (IDactual == IDExpediente)
             {
                 found = true;
-
+//falta terminar de leer el Expediente hasta el próximo ID
             }
             else
             {
