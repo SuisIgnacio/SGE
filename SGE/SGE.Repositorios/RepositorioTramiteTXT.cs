@@ -48,7 +48,7 @@ public class RepositorioTramiteTXT:ITramiteRepositorio
         sw.WriteLine(t.Contenido);
         sw.WriteLine(t.FechaFinalizacion);
         sw.WriteLine(t.IDUsuario);
-        se.Close();
+        sw.Close();
     }
     public List<Tramite> TramiteConsultaPorEtiqueta(EtiquetaTramite i)
     {
