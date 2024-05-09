@@ -44,7 +44,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
         sw.WriteLine(Convert.ToInt32(e.Estado));
         sw.Close();
     }
-    public int asignarID()
+    public int AsignarID()
     {
         using var sr=new StreamReader(_id_expediente);
         using var sw=new StreamWriter(_id_expediente,false);

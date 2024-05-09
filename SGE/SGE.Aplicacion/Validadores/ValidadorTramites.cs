@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-public class ValidadorTramites
+class ValidadorTramites
 {
     public static void ValidarTramite(Tramite t)
     {

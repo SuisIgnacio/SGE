@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\namuj\\proyectosDotnet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj": {}
+    "c:\\Users\\namuj\\proyectosDotnet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj": {}
   },
   "projects": {
-    "C:\\Users\\namuj\\proyectosDotnet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj": {
+    "c:\\Users\\namuj\\proyectosDotnet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\namuj\\proyectosDotnet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj",
+        "projectUniqueName": "c:\\Users\\namuj\\proyectosDotnet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj",
         "projectName": "SGE.Aplicacion",
-        "projectPath": "C:\\Users\\namuj\\proyectosDotnet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj",
+        "projectPath": "c:\\Users\\namuj\\proyectosDotnet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj",
         "packagesPath": "C:\\Users\\namuj\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\namuj\\proyectosDotnet\\SGE\\SGE.Aplicacion\\obj\\",
+        "outputPath": "c:\\Users\\namuj\\proyectosDotnet\\SGE\\SGE.Aplicacion\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\namuj\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\namuj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -58,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

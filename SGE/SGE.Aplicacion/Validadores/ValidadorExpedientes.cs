@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-public class ValidadorExpedientes
+class ValidadorExpedientes
 {
     public static void ValidarExpediente(Expediente e)
     {
