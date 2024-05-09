@@ -1,3 +1,5 @@
+namespace SGE.Aplicacion;
+
 public class CasoDeUsoTramiteAlta (ITramiteRepositorio inter)
 {
     public void Ejecutar(Tramite tr)
