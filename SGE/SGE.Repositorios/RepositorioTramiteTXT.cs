@@ -1,9 +1,12 @@
 namespace SGE.Repositorios;
+
+using System.Collections;
 using SGE.Aplicacion;
 
-public class RepositorioTramiteTXT
+public class RepositorioTramiteTXT: ITramiteRepositorio
 {
     readonly string _nombreArch="tramites.txt";
+    readonly string _id_tramite="IDTramite.txt";
     public void TramiteBaja(int IDTramite)
     {
         string archAux="temp.txt";
@@ -52,9 +55,36 @@ public class RepositorioTramiteTXT
         sw.WriteLine(t.IDUsuario);
         sw.Close();
     }
+    public int asignarID()
+    {
+        using var sr=new StreamReader(_id_tramite);
+        using var sw=new StreamWriter(_id_tramite,false);
+        int aux=Convert.ToInt32(sr.ReadLine());
+        sw.WriteLine(aux++);
+        sw.Close();
+        sr.Close();
+        return aux;
+    }
     public List<Tramite> TramiteConsultaPorEtiqueta(EtiquetaTramite i)
     {
         List<Tramite> lista = new List<Tramite>();
+        using var sr=new StreamReader(_nombreArch);
+        Tramite T = new Tramite();
+        while(!sr.EndOfStream)
+        {
+            T.IDTramite=Convert.ToInt32(sr.ReadLine());
+            T.IDExpediente=Convert.ToInt32(sr.ReadLine());
+            T.Etiqueta= (EtiquetaTramite) Convert.ToInt32(sr.ReadLine());
+            T.FechaCreacion=Convert.ToDateTime(sr.ReadLine());
+            T.Contenido=sr.ReadLine();
+            T.FechaActualizacion=Convert.ToDateTime(sr.ReadLine());
+            T.IDUsuario=Convert.ToInt32(sr.ReadLine());
+            if(T.Etiqueta == i)
+            {
+                lista.Add(T);
+            }
+        }
+        sr.Close();
         return lista;
     }
     public void TramiteModificacion(Tramite t)
@@ -78,9 +108,11 @@ public class RepositorioTramiteTXT
                 sw.WriteLine(t.Contenido);
                 sw.WriteLine(t.FechaActualizacion);
                 sw.WriteLine(t.IDUsuario);
+                for (int i = 0; i < 6; i++) sr.ReadLine();
             }
             else
             {
+                sw.WriteLine(IDactual);
                 for (int i = 0; i<6; i++) sw.WriteLine(sr.ReadLine());
             }
         }
