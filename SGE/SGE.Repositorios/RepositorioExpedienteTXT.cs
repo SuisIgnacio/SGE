@@ -4,7 +4,8 @@ using System.Reflection.PortableExecutable;
 
 public class RepositorioExpedienteTXT : IExpedienteRepositorio
 {
-    private string path = "expediente.txt";
+    readonly string path = "expediente.txt";
+    readonly string _id_expediente="IDExpediente.txt";
     public void BajaExpediente(int IDExpediente)
     {
         string pathaux="temp.txt";
@@ -42,6 +43,16 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
         sw.WriteLine(e.IDUsuario);
         sw.WriteLine(Convert.ToInt32(e.Estado));
         sw.Close();
+    }
+    public int asignarID()
+    {
+        using var sr=new StreamReader(_id_expediente);
+        using var sw=new StreamWriter(_id_expediente,false);
+        int aux=Convert.ToInt32(sr.ReadLine());
+        sw.WriteLine(aux++);
+        sw.Close();
+        sr.Close();
+        return aux;
     }
     public Expediente ConsultaPorID(int IDExpediente)
     {
@@ -107,14 +118,12 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
                 sw.WriteLine(e.FechaActualizacion);
                 sw.WriteLine(e.IDUsuario);
                 sw.WriteLine(e.Estado); 
+                for (int i = 0; i < 5; i++) sr.ReadLine();
             }
             else
             {
                 sw.WriteLine(IDactual);
-                for (int i = 0; i < 5; i++)
-                {
-                    sw.WriteLine(sr.ReadLine());
-                }
+                for (int i = 0; i < 5; i++) sw.WriteLine(sr.ReadLine());
             }
         }
         sr.Close();
