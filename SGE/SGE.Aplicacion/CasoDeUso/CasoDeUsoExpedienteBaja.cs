@@ -2,8 +2,8 @@ namespace SGE.Aplicacion;
 
 public class CasoDeUsoExpedienteBaja (IExpedienteRepositorio repo) 
 {
-    public void Ejecutar (Expediente e) 
+    public void Ejecutar (int IDExpediente) 
     {
-        repo.BajaExpediente(e); 
+        repo.BajaExpediente(IDExpediente); 
     }
 } 
