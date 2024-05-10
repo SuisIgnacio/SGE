@@ -1,9 +1,9 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoTramiteBaja (ITramiteRepositorio r)
+public class CasoDeUsoTramiteBaja (ITramiteRepositorio repo)
 {
     public void Ejecutar(Tramite t)
     {
-        r.TramiteBaja(t);
+        repo.TramiteBaja(t);
     }
 }
