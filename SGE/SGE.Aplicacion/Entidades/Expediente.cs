@@ -26,5 +26,7 @@ public class Expediente
     public void AgregarTramite(Tramite t)
     {
         Tramites.Add(t);
+        var actualizacion=new ServicioActualizacionEstado();
+        actualizacion.ActualizacionEstado(this);
     }
 }
