@@ -35,14 +35,25 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
     }
     public void AltaExpediente(Expediente e)
     {
-        using var sw = new StreamWriter(path, true);
-        sw.WriteLine(e.IDExpediente);
-        sw.WriteLine(e.FechaInicio);
-        sw.WriteLine(e.Caratula);
-        sw.WriteLine(e.FechaActualizacion);
-        sw.WriteLine(e.IDUsuario);
-        sw.WriteLine(Convert.ToInt32(e.Estado));
-        sw.Close();
+        try
+        {
+            var validar=new ValidadorExpedientes();
+            validar.ValidarExpediente(e);
+            var validarID= new ServicioAutorizacionProvisorio();
+            if(validarID.autoriza(e.IDUsuario))
+            {
+                using var sw = new StreamWriter(path, true);
+                sw.WriteLine(e.IDExpediente);
+                sw.WriteLine(e.FechaInicio);
+                sw.WriteLine(e.Caratula);
+                sw.WriteLine(e.FechaActualizacion);
+                sw.WriteLine(e.IDUsuario);
+                sw.WriteLine(Convert.ToInt32(e.Estado));
+                sw.Close();
+            }else Console.WriteLine("El ID de usuario no es correcto");
+        } catch(ValidacionException){
+            Console.WriteLine("Hubo un error al validar la caratula");
+        }
     }
     public int AsignarID()
     {
