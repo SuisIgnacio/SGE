@@ -14,7 +14,8 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
         using var sw=new StreamWriter(pathaux,false);
         int IDactual;
         bool found = false;
-        while (!sr.EndOfStream && !found)
+        sr.DiscardBufferedData();
+        while (sr.Peek() >= 0 && !found)
         {
             IDactual = Convert.ToInt32(sr.ReadLine()); ;
             if (IDactual == IDExpediente)
@@ -28,8 +29,13 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
                 for (int i = 0; i < 5; i++) sw.WriteLine(sr.ReadLine());
             }
         }
+        
         sr.Close();
         sw.Close();
+        if(!found)
+        {
+            throw new RepositorioException();
+        }
         File.Delete(path);
         File.Move(pathaux, path);
     }
@@ -58,22 +64,23 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
     public int AsignarID()
     {
         using var sr=new StreamReader(_id_expediente);
-        using var sw=new StreamWriter(_id_expediente,false);
         int aux=Convert.ToInt32(sr.ReadLine());
-        sw.WriteLine(aux++);
-        sw.Close();
         sr.Close();
+        using var sw=new StreamWriter(_id_expediente,false);
+        sw.WriteLine(aux+1);
+        sw.Close();
         return aux;
     }
     public Expediente ConsultaPorID(int IDExpediente)
     {
-        using var sr = new StreamReader(path);
+        using var sr = File.OpenText(path);
         Expediente expedienteRetorno = new Expediente();
         int IDactual;
         bool found = false;
-        while (!sr.EndOfStream)
+        
+        while (sr.Peek() >= 0 && !found)
         {
-            IDactual = Convert.ToInt32(sr.ReadLine()); ;
+            IDactual=Convert.ToInt32(sr.ReadLine());
             if (IDactual == IDExpediente)
             {
                 found = true;
@@ -85,9 +92,17 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
                 expedienteRetorno.IDUsuario = Convert.ToInt32(sr.ReadLine());
                 expedienteRetorno.Estado = (EstadoExpediente) Convert.ToInt32(sr.ReadLine());
             }
+            else 
+            {
+                for(int i=0;i<5;i++) sr.ReadLine();
+            }
         }
         sr.Close();
-        if (!found) Console.WriteLine("El Expediente no fue encontrado");
+        if (!found)
+        {
+            Console.WriteLine("El Expediente no fue encontrado");
+            throw new RepositorioException();
+        } 
         return expedienteRetorno;
     }
     public List<Expediente> ConsultaPorTodos()
@@ -95,7 +110,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
         using var sr = new StreamReader(path);
         List<Expediente> listaExpedientes = new List<Expediente>();
         Expediente expedienteRetorno = new Expediente();
-        while (!sr.EndOfStream)
+        while (sr.Peek() >= 0)
         {
             expedienteRetorno.IDExpediente = Convert.ToInt32(sr.ReadLine());
             expedienteRetorno.FechaInicio = Convert.ToDateTime(sr.ReadLine());
@@ -116,7 +131,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
         using var sw=new StreamWriter(pathaux,false);
         int IDactual;
         bool found = false;
-        while (!sr.EndOfStream && !found)
+        while (sr.Peek() >= 0 && !found)
         {
             IDactual = Convert.ToInt32(sr.ReadLine()); ;
             if (IDactual == e.IDExpediente)
@@ -139,6 +154,10 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
         }
         sr.Close();
         sw.Close();
+        if(!found)
+        {
+            throw new RepositorioException();
+        }
         File.Delete(path);
         File.Move(pathaux, path);
     }
