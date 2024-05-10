@@ -1,0 +1,15 @@
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\bin\Debug\net8.0\SGE.Repositorios.deps.json
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\bin\Debug\net8.0\SGE.Repositorios.dll
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\bin\Debug\net8.0\SGE.Repositorios.pdb
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\bin\Debug\net8.0\SGE.Aplicacion.dll
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\bin\Debug\net8.0\SGE.Aplicacion.pdb
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\obj\Debug\net8.0\SGE.Repositorios.csproj.AssemblyReference.cache
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\obj\Debug\net8.0\SGE.Repositorios.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\obj\Debug\net8.0\SGE.Repositorios.AssemblyInfoInputs.cache
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\obj\Debug\net8.0\SGE.Repositorios.AssemblyInfo.cs
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\obj\Debug\net8.0\SGE.Repositorios.csproj.CoreCompileInputs.cache
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\obj\Debug\net8.0\SGE.Repo.5B6658F4.Up2Date
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\obj\Debug\net8.0\SGE.Repositorios.dll
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\obj\Debug\net8.0\refint\SGE.Repositorios.dll
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\obj\Debug\net8.0\SGE.Repositorios.pdb
+C:\Users\namuj\proyectosDotnet\SGE\SGE.Repositorios\obj\Debug\net8.0\ref\SGE.Repositorios.dll
