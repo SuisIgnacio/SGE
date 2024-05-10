@@ -1,9 +1,9 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoTramiteModificacion(ITramiteRepositorio original)
+public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo)
 {
     public void Ejecutar (Tramite modificado)
     {
-        original.TramiteModificacion(modificado);
+        repo.TramiteModificacion(modificado);
     }
 }
