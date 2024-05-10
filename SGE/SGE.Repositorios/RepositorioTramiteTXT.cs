@@ -45,15 +45,29 @@ public class RepositorioTramiteTXT: ITramiteRepositorio
     }
     public void TramiteAlta(Tramite t)
     {
-        using var sw=new StreamWriter(_nombreArch,true);
-        sw.WriteLine(t.IDTramite);
-        sw.WriteLine(t.IDExpediente);
-        sw.WriteLine(Convert.ToInt32(t.Etiqueta));
-        sw.WriteLine(t.FechaCreacion);
-        sw.WriteLine(t.Contenido);
-        sw.WriteLine(t.FechaActualizacion);
-        sw.WriteLine(t.IDUsuario);
-        sw.Close();
+        try
+        {
+            var validador=new ValidadorTramites();
+            validador.ValidarTramite(t);
+            var validarID= new ServicioAutorizacionProvisorio();
+            if(validarID.autoriza(t.IDUsuario))
+            {
+                using var sw=new StreamWriter(_nombreArch,true);
+                sw.WriteLine(t.IDTramite);
+                sw.WriteLine(t.IDExpediente);
+                sw.WriteLine(Convert.ToInt32(t.Etiqueta));
+                sw.WriteLine(t.FechaCreacion);
+                sw.WriteLine(t.Contenido);
+                sw.WriteLine(t.FechaActualizacion);
+                sw.WriteLine(t.IDUsuario);
+                sw.Close();
+                var repoExpedientes=new RepositorioExpedienteTXT();
+                Expediente e=repoExpedientes.ConsultaPorID(t.IDExpediente);
+                e.AgregarTramite(t);
+            }else Console.WriteLine("El ID de usuario no es correcto");
+        }catch(ValidacionException){
+            Console.WriteLine("No se pudo validar el contenido");
+        }
     }
     public int asignarID()
     {
