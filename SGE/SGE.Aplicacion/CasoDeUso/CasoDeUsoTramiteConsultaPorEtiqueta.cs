@@ -1,9 +1,9 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoTramiteConsultaPorEtiqueta (ITramiteRepositorio r)
+public class CasoDeUsoTramiteConsultaPorEtiqueta (ITramiteRepositorio repo)
 {
     public List<Tramite> Ejecutar(EtiquetaTramite i)
     {
-        return r.TramiteConsultaPorEtiqueta(i);
+        return repo.TramiteConsultaPorEtiqueta(i);
     }
 }
