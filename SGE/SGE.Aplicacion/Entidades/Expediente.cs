@@ -8,7 +8,7 @@ public class Expediente
     public DateTime FechaActualizacion;
     public int IDUsuario;
     public EstadoExpediente Estado;
-    public List<Tramite>? Tramites=new List<Tramite>();
+    public List<Tramite> Tramites=new List<Tramite>();
     public Expediente()
     {
         this.Caratula = "No existo";

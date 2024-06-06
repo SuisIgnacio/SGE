@@ -2,5 +2,5 @@ namespace SGE.Aplicacion;
 
 public interface IServicioAutorizacion 
 {
-    public Boolean autoriza (int var);
+    public Boolean autoriza(List<Permiso> lista,Permiso p);
 }
