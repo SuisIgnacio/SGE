@@ -21,6 +21,8 @@ public class RepositorioExpediente: IExpedienteRepositorio
     }
     public void ModificarExpediente(Expediente e)
     {
-        
+        Expediente? objetivo = contexto.Expedientes.Where(E => E.Id == e.Id).SingleOrDefault();
+        if (objetivo != null) objetivo = e;
+        contexto.SaveChanges();
     }
 }
