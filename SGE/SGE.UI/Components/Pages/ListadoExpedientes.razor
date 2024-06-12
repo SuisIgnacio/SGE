@@ -1,0 +1,38 @@
+@page "/listadoexpedientes"
+@rendermode InteractiveServer
+@inject CasoDeUsoExpedienteConsultaTodos ListarExpedientesUseCase
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Caratula del Expediente</th>
+            <th>Fecha de Inicio del Expediente</th>
+            <th>Fecha de Actualizacoin del Expediente</th>
+            <th>ID del Ultimo Usuario en modificar el Expediente</th>
+            <th>Estado de Expediente</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var exp in lista)
+        {
+             <tr>
+                <td>@exp.Id</td>
+                <td>@exp.Caratula</td>
+                <td>@exp.FechaInicio</td>
+                <td>@exp.FechaActualizacion</td>
+                <td>@exp.IDUsuario</td>
+                <td>@exp.Estado</td> 
+             </tr>
+        }
+    </tbody>
+</table>
+
+@code
+{
+    List<Expediente> lista=new List<Expediente>();
+    protected override void OnInitialized()
+    {
+        lista=ListarExpedientesUseCase.Ejecutar(); 
+    }
+}
