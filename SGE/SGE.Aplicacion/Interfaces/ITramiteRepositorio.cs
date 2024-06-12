@@ -2,8 +2,8 @@ namespace SGE.Aplicacion;
 
 public interface ITramiteRepositorio
 {
-    void TramiteBaja(int IDTramite);
-    void TramiteAlta(Tramite t);
-    List<Tramite> TramiteConsultaPorEtiqueta(EtiquetaTramite i);
-    void TramiteModificacion(Tramite t);
+    public void TramiteBaja(int IDTramite);
+    public void TramiteAlta(Tramite t);
+    public List<Tramite> TramiteConsultaPorEtiqueta(EtiquetaTramite i);
+    public void TramiteModificacion(Tramite t);
 }

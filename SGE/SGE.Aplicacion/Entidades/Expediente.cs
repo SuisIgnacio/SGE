@@ -2,20 +2,20 @@ namespace SGE.Aplicacion;
 
 public class Expediente
 {
-    public int IDExpediente;
-    public string? Caratula;
-    public DateTime FechaInicio;
-    public DateTime FechaActualizacion;
-    public int IDUsuario;
-    public EstadoExpediente Estado;
-    public List<Tramite> Tramites=new List<Tramite>();
+    public int Id { get; set; }
+    public string? Caratula { get; set; }
+    public DateTime FechaInicio { get; set; }
+    public DateTime FechaActualizacion { get; set; }
+    public int IDUsuario { get; set; }
+    public EstadoExpediente Estado { get; set; }
+    public List<Tramite> Tramites {get;set;} =new List<Tramite>();
     public Expediente()
     {
         this.Caratula = "No existo";
     }
     public Expediente (int _id_expediente,string? caratula,DateTime fechaInicio,DateTime fechaAct,int idUsuario,EstadoExpediente estado)
     {
-        IDExpediente=_id_expediente;
+        Id=_id_expediente;
         Caratula = caratula;
         FechaInicio = fechaInicio;
         FechaActualizacion = fechaAct;

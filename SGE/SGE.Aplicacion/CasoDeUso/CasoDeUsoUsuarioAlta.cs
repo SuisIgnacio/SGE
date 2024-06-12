@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion;
 
-public class CasoDeUsoAltaUsuario (IUsuarioRepositorio repo)
+public class CasoDeUsoUsuarioAlta (IUsuarioRepositorio repo)
 {
     public void Ejecutar(Usuario user)
     {
