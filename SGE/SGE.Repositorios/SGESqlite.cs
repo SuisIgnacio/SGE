@@ -15,7 +15,7 @@ public class SGESqlite
             context.Expedientes.Add(new Expediente(){Caratula = "Ingles", FechaActualizacion=DateTime.Now, FechaInicio=DateTime.Now,
                                     IDUsuario=1,Estado= EstadoExpediente.RecienIniciado});
             context.Usuarios.Add(new Usuario() { Id = 1,Nombre= "juan",Apellido= "Perez",Correo="sos"});
-            context.SaveChanges();
+            context.SaveChanges(); 
         }
     }
 }
