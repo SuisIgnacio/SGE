@@ -3,9 +3,16 @@ using SGE.Aplicacion;
 
 public class RepositorioExpediente: IExpedienteRepositorio
 {
+    public SGEDBContext context=new SGEDBContext();
     public void BajaExpediente(int IDExpediente)
     {
-
+        var expedienteBorrar=context.Expedientes.Where(a=>a.Id==IDExpediente).SingleOrDefault();
+        if(expedienteBorrar!=null)
+        {
+            context.Remove(expedienteBorrar);
+            Console.WriteLine("se elimino el expediente");
+        }
+        else Console.WriteLine("El expediente no existe");
     }
     public void AltaExpediente(Expediente e)
     {
