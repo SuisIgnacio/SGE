@@ -10,16 +10,11 @@ public class RepositorioUsuario: IUsuarioRepositorio
     {
         using (SHA256 mySHA256 = SHA256.Create())
         {
-            u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
+            if(u.Contraseña!=null) u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
         }
         context.Add(u);
         context.SaveChanges();
         u=context.Usuarios.OrderBy(u=>u.Id).Last();
-        foreach(Permiso p in u.permisos)
-        {
-            PermisoDb peron= new PermisoDb(){permiso=p,IdUsuario=u.Id};
-            context.Add(peron);
-        }
         context.SaveChanges();
     }
     public void UsuarioBaja(int IdBorrar)
@@ -31,10 +26,36 @@ public class RepositorioUsuario: IUsuarioRepositorio
     }
     public void UsuarioModificacion(Usuario u)
     {
-
-    } // un usuario se modifica a si mismo
+        Usuario? objetivo = context.Usuarios.Where(uS => uS.Id == u.Id).SingleOrDefault();
+        if (objetivo != null) objetivo = u;
+        context.SaveChanges();
+    } 
     public void UsuarioModificacionAdmin(Usuario u)
     {
-
-    } // un usuario trata de modificar a otro
+        Usuario? objetivo = context.Usuarios.Where(uS => uS.Id == u.Id).SingleOrDefault();
+        if (objetivo != null) 
+        {
+            objetivo = u;
+            foreach(Permiso p in u.permisos)
+            {
+                PermisoDb PermisoTabla= new PermisoDb(){permiso=p,IdUsuario=u.Id};
+                context.Add(PermisoTabla);
+            }
+            context.SaveChanges();
+        }
+    } 
+    public bool LogIn(string correo,string contraseña)
+    {
+        byte [] Contra= Encoding.UTF8.GetBytes(contraseña);
+        Usuario? u=context.Usuarios.Where(u=>u.Correo == correo).SingleOrDefault();
+        if(u!=null)
+        {
+            using (SHA256 mySHA256 = SHA256.Create())
+            {
+                Contra=mySHA256.ComputeHash(Contra);
+                return (u.Contraseña== Contra);
+            }
+        }
+        else throw new MailException("");
+    }
 }
