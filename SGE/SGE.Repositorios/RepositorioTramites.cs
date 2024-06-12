@@ -25,8 +25,8 @@ public class RepositorioTramites:DbContext, ITramiteRepositorio
     }
         public void TramiteModificacion(Tramite t)
     {
-        Tramite? objetivo = contexto.Tramites.Where(T => T.Id == t.Id).SingleOrDefault();
+        Tramite? objetivo = context.Tramites.Where(T => T.Id == t.Id).SingleOrDefault();
         if (objetivo != null) objetivo = t;
-        contexto.SaveChanges(); 
+        context.SaveChanges(); 
     }
 }
