@@ -1,0 +1,52 @@
+@page "/"
+@rendermode InteractiveServer 
+
+@inject NavigationManager Navegador;
+@inject CasoDeUsoLogIn CasoLog
+
+@if(visible)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>Ingrese sus Datos</h3>
+            <input placeholder="Correo" @bind="correo" class="form-control"><br>
+            <input placeholder="Contraseña" @bind="contra" class="form-control"><br> 
+            <button class="btn btn-primary" @onclick="Cerrar"> Ingresar </button>
+            <button class="btn btn-primary" @onclick="crearUser">Registrarse</button>
+            <DialogoConfirmacion @ref=dialogo />
+        </div>
+    </div>
+}
+
+@code
+{
+    public Usuario user;
+    public bool visible=true;
+    public string correo;
+    public string contra;
+    DialogoConfirmacion dialogo = null!;
+    public void Cerrar()
+    {
+        if(contra!=null && correo!=null)
+        {
+            if(CasoLog.Ejecutar(correo,contra))
+            {
+                Navegador.NavigateTo("inicio");
+            }
+            else 
+            {
+                this.Error();
+            }
+        }
+    }
+    public void crearUser()
+    {
+        Navegador.NavigateTo("singin");
+    }
+    
+    private void Error()
+    {
+        dialogo.Mensaje="La contraseña es incorrecta";
+        dialogo.Mostrar();
+    }
+}

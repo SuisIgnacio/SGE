@@ -1,0 +1,67 @@
+@page "/singin"
+@rendermode InteractiveServer 
+@inject NavigationManager Navegador;
+@inject CasoDeUsoUsuarioAlta CasoAlta
+
+@if(visible)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <h3>Ingrese sus Datos</h3>
+            <input placeholder="Nombre" @bind="nombre" class="form-control"><br>
+            <input placeholder="Apellido" @bind="apellido" class="form-control"><br>
+            <input placeholder="Correo" @bind="correo" class="form-control"><br>
+            <input placeholder="Contraseña" @bind="contra" class="form-control"><br> 
+            <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> <br>
+            <DialogoConfirmacion @ref=dialogo />
+        </div>
+    </div>
+}
+
+@code
+{
+    public Usuario user;
+    public bool visible=true;
+    public string nombre;
+    public string apellido;
+    public string correo;
+    public string contra;
+    DialogoConfirmacion dialogo = null!;
+    public void Cerrar()
+    {
+        if(nombre!=null && apellido!=null && correo!=null && contra!=null)
+        {
+            user=new Usuario(contra);
+            user.Correo=correo;
+            user.Nombre=nombre;
+            user.Apellido=apellido;
+            CasoAlta.Ejecutar(user);
+            visible=false;
+            Navegador.NavigateTo("");
+        }
+        else
+        {
+            Console.WriteLine("habia null");
+            if(nombre == null)
+            {
+                dialogo.Mensaje="Debe completar su nombre";
+            }
+            if(apellido == null)
+            {
+                dialogo.Mensaje="Debe completar su apellido";
+            }
+            if(correo == null)
+            {
+                dialogo.Mensaje="Debe completar su correo";
+            }
+            if(contra == null)
+            {
+                dialogo.Mensaje="Debe completar su contra";
+            }
+        }
+    }
+    private void Error()
+    {
+        dialogo.Mostrar();
+    }
+}
