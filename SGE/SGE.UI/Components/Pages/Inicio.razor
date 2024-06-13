@@ -1,0 +1,17 @@
+@page "/inicio"
+
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+<h1>Bienvenido</h1>
+<h2>Seleccione una base de Datos</h2>
+<button class="btn btn-primary" @onclick="ListarExpe">Expedientes</button>
+
+
+@code
+{
+    public Usuario _usuario;
+    void ListarExpe()
+    {
+        Navegador.NavigateTo("listadoExpedientes");
+    }
+}

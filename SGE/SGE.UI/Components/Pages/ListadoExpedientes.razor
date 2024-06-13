@@ -10,11 +10,10 @@
             <th>Fecha de Inicio del Expediente</th>
             <th>Fecha de Actualizacoin del Expediente</th>
             <th>ID del Ultimo Usuario en modificar el Expediente</th>
-            <th>Estado de Expediente</th>
         </tr>
     </thead>
     <tbody>
-        @foreach(var exp in lista)
+        @foreach(var exp in _lista)
         {
              <tr>
                 <td>@exp.Id</td>
@@ -22,17 +21,16 @@
                 <td>@exp.FechaInicio</td>
                 <td>@exp.FechaActualizacion</td>
                 <td>@exp.IDUsuario</td>
-                <td>@exp.Estado</td> 
              </tr>
         }
     </tbody>
 </table>
 
-@code
-{
-    List<Expediente> lista=new List<Expediente>();
+
+@code {
+    List<Expediente> _lista = new List<Expediente>();
     protected override void OnInitialized()
     {
-        lista=ListarExpedientesUseCase.Ejecutar(); 
+        _lista = ListarExpedientesUseCase.Ejecutar(); 
     }
 }
