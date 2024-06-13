@@ -41,22 +41,25 @@
         }
         else
         {
-            Console.WriteLine("habia null");
             if(nombre == null)
             {
                 dialogo.Mensaje="Debe completar su nombre";
+                this.Error();
             }
             if(apellido == null)
             {
                 dialogo.Mensaje="Debe completar su apellido";
+                this.Error();
             }
             if(correo == null)
             {
                 dialogo.Mensaje="Debe completar su correo";
+                this.Error();
             }
             if(contra == null)
             {
                 dialogo.Mensaje="Debe completar su contra";
+                this.Error();
             }
         }
     }
