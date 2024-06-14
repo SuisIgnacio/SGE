@@ -1,0 +1,20 @@
+namespace SGE.Aplicacion;
+using Microsoft.EntityFrameworkCore; 
+
+
+public class RepositorioUsuario{
+    public SGEDBContext context=new SGEDBContext();
+    public List<Usuario> ConsultarPorTodos (){
+        List<Usuario> lista = context.Usuarios.ToList();
+        List <PermisoDB> permisos = context.Permisos.ToList();
+        foreach (Usuario u in lista)
+        {
+            foreach (PermisoDB permiso in permisos){
+                if (permiso.IdUsuario == u.Id){
+                    u.permisos.add (Permiso.permiso); 
+                }
+            }
+        } 
+        return lista; 
+    }
+}
