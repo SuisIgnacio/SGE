@@ -58,4 +58,19 @@ public class RepositorioUsuario: IUsuarioRepositorio
         }
         else throw new MailException("");
     }
+    public List<Usuario> ConsultarPorTodos ()
+    {
+        List<Usuario> lista = context.Usuarios.ToList();
+        List <PermisoDb> listPermisos = context.Permisos.ToList();
+        foreach (Usuario u in lista)
+        {
+            foreach (PermisoDb unPermiso in listPermisos){
+                if (unPermiso.IdUsuario == u.Id)
+                {
+                    u.permisos.Add(unPermiso.permiso);
+                }
+            }
+        } 
+        return lista; 
+    }
 }
