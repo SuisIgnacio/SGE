@@ -1,31 +1,25 @@
-namespace SGE.Repositorios;
 using System.Security.Cryptography;
 using System.Text;
 using SGE.Aplicacion;
 
+namespace SGE.Repositorios;
 public class RepositorioUsuario: IUsuarioRepositorio
 {
     public SGEDBContext context=new SGEDBContext();
     public void UsuarioAlta(Usuario u)
     {
-        foreach(byte b in u.Contraseña)Console.WriteLine($"CONTRA USER ANTES DE ENCRIPTAR {u.Contraseña}");
         using (SHA256 mySHA256 = SHA256.Create())
         {
-            if(u.Contraseña!=null) u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
+            if(u.Contraseña!=null)
+            {
+                u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
+            }
         }
-        
         context.Add(u);
         context.SaveChanges();
-        Usuario us = context.Usuarios.OrderBy(u=>u.Id).Last();
-        if (us.Id == 1){
-            us.setAdmin();
-            foreach(Permiso p in us.permisos)
-            {
-                PermisoDb PermisoTabla= new PermisoDb(){permiso=p,IDUsuario=us.Id};
-                context.Add(PermisoTabla);
-            }
-            context.SaveChanges();
-        }
+        Usuario aux=context.Usuarios.OrderBy(u=>u.Id).Last();
+        if(aux.Id==1)aux.setAdmin();
+        context.SaveChanges();
     }
     public void UsuarioBaja(int IdBorrar)
     {
@@ -45,6 +39,13 @@ public class RepositorioUsuario: IUsuarioRepositorio
         Usuario? objetivo = context.Usuarios.Where(uS => uS.Id == u.Id).SingleOrDefault();
         if (objetivo != null) 
         {
+            using (SHA256 mySHA256 = SHA256.Create())
+            {
+                if(u.Contraseña!=null)
+                {
+                    u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
+                }
+            }
             objetivo = u;
             foreach(Permiso p in u.permisos)
             {
@@ -54,17 +55,21 @@ public class RepositorioUsuario: IUsuarioRepositorio
             context.SaveChanges();
         }
     } 
-    public bool LogIn(string correo,string contraseña)
+    public Usuario LogIn(string correo,string contraseña)
     {
-        byte [] Contra= Encoding.UTF8.GetBytes(contraseña);
+        byte[]? Contra= Encoding.UTF8.GetBytes(contraseña);
         Usuario? u=context.Usuarios.Where(u=>u.Correo == correo).SingleOrDefault();
         if(u!=null)
         {
             using (SHA256 mySHA256 = SHA256.Create())
             {
                 Contra=mySHA256.ComputeHash(Contra);
-                return (u.Contraseña== Contra);
+                for (int i = 0; i<Contra.Length;i++){
+                    if (Contra[i]!= u.Contraseña[i]) return null;
+                }
+                return u;
             }
+            
         }
         else throw new MailException("");
     }
@@ -82,5 +87,19 @@ public class RepositorioUsuario: IUsuarioRepositorio
             }
         } 
         return lista; 
+    }
+    public Usuario ConsultarPorId(int Id)
+    {
+        Usuario? user=context.Usuarios.Where(u=>u.Id==Id).FirstOrDefault();
+        if(user!=null)
+        {
+            var lista=context.Permisos.Where(p=>p.IdUsuario==user.Id).ToList();
+            foreach(PermisoDb p in lista)
+            {
+                user.permisos.Add(p.permiso);
+            }
+            return user;
+        }
+        else throw new RepositorioException("El usuario no Existe");
     }
 }
