@@ -2,6 +2,18 @@
 
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
+@inject LoggedUser _LoggedUser
 
-<h1>Bienvenido</h1>
+<h1>Hola @_LoggedUser.user.Nombre</h1>
+<h1>Bienvenido al Sistema de Gestion de Expedientes</h1>
 <h2>Seleccione una base de Datos</h2>
+
+<button class="btn btn-primary" @onclick="CerrarSesion">Cerrar sesion</button>
+
+@code
+{
+    public void CerrarSesion()
+    {
+        Navegador.NavigateTo("");
+    }
+}

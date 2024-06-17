@@ -1,0 +1,55 @@
+@page "/listadousuarios/{Id:int}"
+@using System.Text
+
+@rendermode InteractiveServer
+
+@inject NavigationManager Navegador;
+@inject CasoDeUsoUsuarioModificacionAdmin CasoModAdmin
+@inject CasoDeUsoUsuarioConsultaId CasoUsoBusquedaId
+@inject LoggedUser _LoggedUser
+
+
+<h3>Ingrese sus Datos</h3>
+<input placeholder="Nombre" @bind="user.Nombre" class="form-control"><br>
+<input placeholder="Apellido" @bind="user.Apellido" class="form-control"><br>
+<input placeholder="Correo" @bind="user.Correo" class="form-control"><br>
+<h5>Si no ingresas una nueva contraseña no se modificara</h5> <br>
+<input placeholder="Contraseña" @bind="contra" class="form-control"><br> 
+<button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> 
+<button class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
+
+<VentanaError @ref=dialogo Mensaje="Faltan completar datos"/>
+
+@code
+{
+    public string contra="";
+    [Parameter]
+    public int Id{get;set;}
+    public Usuario user;
+    protected override void OnParametersSet()
+    {
+        user=CasoUsoBusquedaId.Ejecutar(Id);
+    }
+    VentanaError dialogo = null!;
+    public void Cerrar()
+    {
+        if(user.Nombre !=null && user.Apellido !=null && user.Correo!=null)
+        {
+            if(contra == "") CasoModAdmin.Ejecutar(_LoggedUser.user,user);
+            else
+            {
+                user.Contraseña=Encoding.UTF8.GetBytes(contra);
+                CasoModAdmin.Ejecutar(_LoggedUser.user,user);
+            }
+            Navegador.NavigateTo("listadousuarios");
+        }else this.Error();
+    }
+    public void Error()
+    {
+        dialogo.Mostrar();
+    }
+    public void Cancelar()
+    {
+        Navegador.NavigateTo("listadousuarios");
+    }
+}

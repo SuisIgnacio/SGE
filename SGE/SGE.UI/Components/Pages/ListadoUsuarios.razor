@@ -1,0 +1,84 @@
+@page "/listadousuarios"
+@rendermode InteractiveServer
+
+@inject NavigationManager Navegador;
+@inject LoggedUser _LoggedUser 
+@inject CasoDeUsoUsuarioConsulta CasoUserLista
+@inject CasoDeUsoUsuarioBaja CasoUsoBaja
+
+<h1>Base de datos de Usuarios</h1>
+<h2>Usted dene ser Administrador para acceder a estos datos</h2>
+
+<button class="btn btn-primary" @onclick="Mostrar">Mostrar Usuarios</button>
+
+<DialogoConfirmacion @ref=dialogoBorrar />
+
+@if(visible)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var user in _lista)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Nombre</td>
+                    <td>@user.Apellido</td>
+                    <td>@user.Correo</td>
+                    <td>
+                        <button class="btn btn-primary"  @onclick="()=>ModificarUsuario(user.Id)">Modificar</button>
+                        <button class="btn btn-danger" @onclick="()=>ConfirmarEliminacion(user)">Eliminar</button>
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<VentanaError @ref=dialogo />
+
+@code
+{
+    private bool visible=false;
+    public List<Usuario> _lista;
+    protected override void OnInitialized()
+    {
+        _lista = CasoUserLista.Ejecutar(_LoggedUser.user); 
+    }
+    VentanaError dialogo = null!;DialogoConfirmacion dialogoBorrar = null!;
+    public void Mostrar()
+    {
+        if(_LoggedUser.user.Id==1) visible=!visible;
+        else this.Error();
+    }
+    private void Error()
+    {
+        dialogo.Mensaje="Debes ser Admin para ver la lista de usuarios";
+        dialogo.Mostrar();
+    }
+    public void ModificarUsuario(int Id)
+    {
+        Navegador.NavigateTo($"listadousuarios/{Id}");
+    }
+    
+    private void ConfirmarEliminacion(Usuario user)
+    {
+        dialogoBorrar.Mensaje=$"Estas seguro que quieres elminar a {user.Nombre} {user.Apellido}";
+        dialogoBorrar.OnConfirmado=EventCallback.Factory.Create(this,()=>EliminarUser(user));
+        dialogoBorrar.Mostrar();
+    }
+    private void EliminarUser(Usuario user)
+    {
+        CasoUsoBaja.Ejecutar(_LoggedUser.user,user);
+        _lista = CasoUserLista.Ejecutar(_LoggedUser.user); 
+    }
+}

@@ -12,21 +12,22 @@
             <input placeholder="Apellido" @bind="apellido" class="form-control"><br>
             <input placeholder="Correo" @bind="correo" class="form-control"><br>
             <input placeholder="Contraseña" @bind="contra" class="form-control"><br> 
-            <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> <br>
-            <DialogoConfirmacion @ref=dialogo />
+            <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> 
+            <button class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
+            <VentanaError @ref=dialogo Mensaje="Faltan completar datos"/>
         </div>
     </div>
 }
 
 @code
 {
-    public Usuario user;
+    public Usuario? user;
     public bool visible=true;
-    public string nombre;
-    public string apellido;
-    public string correo;
-    public string contra;
-    DialogoConfirmacion dialogo = null!;
+    public string? nombre;
+    public string? apellido;
+    public string? correo;
+    public string? contra;
+    VentanaError dialogo = null!;
     public void Cerrar()
     {
         if(nombre!=null && apellido!=null && correo!=null && contra!=null)
@@ -39,32 +40,14 @@
             visible=false;
             Navegador.NavigateTo("");
         }
-        else
-        {
-            if(nombre == null)
-            {
-                dialogo.Mensaje="Debe completar su nombre";
-                this.Error();
-            }
-            if(apellido == null)
-            {
-                dialogo.Mensaje="Debe completar su apellido";
-                this.Error();
-            }
-            if(correo == null)
-            {
-                dialogo.Mensaje="Debe completar su correo";
-                this.Error();
-            }
-            if(contra == null)
-            {
-                dialogo.Mensaje="Debe completar su contra";
-                this.Error();
-            }
-        }
+        else this.Error();
     }
     private void Error()
     {
         dialogo.Mostrar();
+    }
+    public void Cancelar()
+    {
+        Navegador.NavigateTo("");
     }
 }
