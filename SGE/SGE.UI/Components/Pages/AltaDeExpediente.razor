@@ -1,0 +1,31 @@
+@page "/altaExpediente"
+@rendermode InteractiveServer 
+@inject CasoDeUsoExpedienteAlta altaExp
+@inject LoggedUser _LoggedUser
+@inject NavigationManager Navegador;
+
+    <div class="dialogo-conten">
+        <div class="dialogo-contenid">
+            <h3>Ingrese la caratula del Expediente</h3>
+            <input placeholder="Caratula" @bind="Caratula" class="form-control"><br>
+            <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> <br>
+            <VentanaError @ref=dialogo />
+        </div>
+    </div>
+
+@code{
+    public string Caratula;
+    public bool visible = true;
+
+    VentanaError dialogo=null!;
+    public void Cerrar(){
+        if (Caratula != null){
+            Expediente exp = new Expediente (){Caratula=Caratula, FechaActualizacion=DateTime.Now, 
+                                            FechaInicio=DateTime.Now,IDUsuario=_LoggedUser.user.Id,
+                                            Estado= EstadoExpediente.RecienIniciado};
+            altaExp.Ejecutar(exp, _LoggedUser.user);
+            visible=false;
+            Navegador.NavigateTo("listadoexpedientes");
+        }
+    }
+}
