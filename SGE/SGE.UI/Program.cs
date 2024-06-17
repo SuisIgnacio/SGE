@@ -26,10 +26,15 @@ builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
 builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
 builder.Services.AddTransient<CasoDeUsoUsuarioModificacionAdmin>();
+builder.Services.AddTransient<CasoDeUsoLogIn>();
+builder.Services.AddTransient<CasoDeUsoUsuarioConsulta>();
+builder.Services.AddTransient<CasoDeUsoUsuarioConsultaId>();
 
 builder.Services.AddScoped<IUsuarioRepositorio,RepositorioUsuario>();
 builder.Services.AddScoped<ITramiteRepositorio,RepositorioTramite>();
 builder.Services.AddScoped<IExpedienteRepositorio,RepositorioExpediente>();
+
+builder.Services.AddSingleton<LoggedUser>();
 
 var app = builder.Build();
 
