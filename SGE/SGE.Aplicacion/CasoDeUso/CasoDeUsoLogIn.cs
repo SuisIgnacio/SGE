@@ -2,7 +2,7 @@ namespace SGE.Aplicacion;
 
 public class CasoDeUsoLogIn(IUsuarioRepositorio repo)
 {
-    public bool Ejecutar(string correo,string contraseña)
+    public Usuario Ejecutar(string correo,string contraseña)
     {
         if(correo !=null)
         {
