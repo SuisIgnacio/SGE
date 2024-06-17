@@ -3,7 +3,6 @@ El github está desactualizado y le faltan clases y código
 Cosas que faltan
 Paginas:
 Listado Tramites
-Listado Usuarios
 
 Opciones/Acciones:
 Modificar Expedientes:al modificar un expediente deberiamos poder ver en la casilla de imput los datos viejos
@@ -13,8 +12,6 @@ Modificar Tramite: idem anterior, ademas deberia chequearse si hay que modificar
 Eliminar Expediente: Necesitamos un dialogo de confirmacion
 Eliminar Tramite: idem
 Modificar Perfil
-
-Opciones del Admin: Modificar otros usuarios, poder listarlos y darlos de baja
 
 Casos de Uso:
 Consulta por todos los tramites
