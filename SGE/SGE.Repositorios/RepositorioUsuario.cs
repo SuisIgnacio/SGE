@@ -8,14 +8,24 @@ public class RepositorioUsuario: IUsuarioRepositorio
     public SGEDBContext context=new SGEDBContext();
     public void UsuarioAlta(Usuario u)
     {
+        foreach(byte b in u.Contraseña)Console.WriteLine($"CONTRA USER ANTES DE ENCRIPTAR {u.Contraseña}");
         using (SHA256 mySHA256 = SHA256.Create())
         {
             if(u.Contraseña!=null) u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
         }
+        
         context.Add(u);
         context.SaveChanges();
-        u=context.Usuarios.OrderBy(u=>u.Id).Last();
-        context.SaveChanges();
+        Usuario us = context.Usuarios.OrderBy(u=>u.Id).Last();
+        if (us.Id == 1){
+            us.setAdmin();
+            foreach(Permiso p in us.permisos)
+            {
+                PermisoDb PermisoTabla= new PermisoDb(){permiso=p,IDUsuario=us.Id};
+                context.Add(PermisoTabla);
+            }
+            context.SaveChanges();
+        }
     }
     public void UsuarioBaja(int IdBorrar)
     {
