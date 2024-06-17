@@ -1,11 +1,11 @@
 @rendermode InteractiveServer
 @if(visible)
 {
-    <div class="dialogo-contenedor">
-        <div class="dialogo-contenido">
+    <div class="contenedor-de-dialogo">
+        <div class="contenido-de-dialogo">
             <h3>@Mensaje</h3>
-            <button class="btn btn-primary" @onclick="()=>Cerrar(true)">Aceptar</button>
-            <button class="btn btn-secondary" @onclick="()=>Cerrar(false)">Cancelar</button>
+            <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button>
+            <button class="btn btn-secondary" @onclick="Cancelar" > Cancelar </button>
         </div>
     </div>
 }
@@ -21,9 +21,13 @@
     }
     [Parameter]
     public EventCallback OnConfirmado{get;set;}
-    void Cerrar(bool conf)
+    void Cerrar()
     {
         visible=false;
-        if(conf)OnConfirmado.InvokeAsync();
+        OnConfirmado.InvokeAsync();
+    }
+    void Cancelar()
+    {
+        visible=false;
     }
 }
