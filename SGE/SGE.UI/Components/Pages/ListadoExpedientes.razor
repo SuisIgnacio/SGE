@@ -1,36 +1,57 @@
 @page "/listadoexpedientes"
 @rendermode InteractiveServer
+@inject LoggedUser _LoggedUser
 @inject CasoDeUsoExpedienteConsultaTodos ListarExpedientesUseCase
+@inject NavigationManager Navegador;
 
-<table class="table">
+<h1> Bienvenido @_LoggedUser.user.Nombre al menu de expedientes</h1>
+
+<h3>Seleccione que Accion deseaba realizar </h3>
+
+<button class="btn btn-primary" @onclick="mostrar">Listar los expedientes</button>
+<button class="btn btn-primary" @onclick="NavAlta">Alta de un Expediente</button>
+
+@if (visible){
+    <table class="table">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Caratula del Expediente</th>
-            <th>Fecha de Inicio del Expediente</th>
-            <th>Fecha de Actualizacoin del Expediente</th>
-            <th>ID del Ultimo Usuario en modificar el Expediente</th>
+            <th>Caratula</th>
+            <th>Fecha de Inicio</th>
+            <th>Fecha de Actualizacion</th>
+            <th>ID del Ultimo Usuario en modificar</th>
         </tr>
     </thead>
     <tbody>
-        @foreach(var exp in _lista)
-        {
-             <tr>
-                <td>@exp.Id</td>
-                <td>@exp.Caratula</td>
-                <td>@exp.FechaInicio</td>
-                <td>@exp.FechaActualizacion</td>
-                <td>@exp.IDUsuario</td>
-             </tr>
+        @if (_lista != null){
+            @foreach(Expediente exp in _lista)
+            {
+                <tr>
+                    <td>@exp.Id</td>
+                    <td>@exp.Caratula</td>
+                    <td>@exp.FechaInicio</td>
+                    <td>@exp.FechaActualizacion</td>
+                    <td>@exp.IDUsuario</td>
+                </tr>
+            }
         }
     </tbody>
 </table>
+}
 
 
-@code {
-    List<Expediente> _lista = new List<Expediente>();
+@code{
+    public bool visible=false;
+    List<Expediente?> _lista = new List<Expediente?>();
     protected override void OnInitialized()
     {
         _lista = ListarExpedientesUseCase.Ejecutar(); 
+    }
+    public void mostrar(){
+        visible=!visible;
+        //StateHasChanged();
+    }
+    public void NavAlta(){
+        Navegador.NavigateTo("altaExpediente");
     }
 }
