@@ -9,9 +9,7 @@ Modificar Expedientes:al modificar un expediente deberiamos poder ver en la casi
 
 Modificar Tramite: idem anterior, ademas deberia chequearse si hay que modificar el estado de expediente al que pertenece (si el tramite es el ultimo)
 
-Eliminar Expediente: Necesitamos un dialogo de confirmacion
 Eliminar Tramite: idem
-Modificar Perfil
 
 Casos de Uso:
 Consulta por todos los tramites
