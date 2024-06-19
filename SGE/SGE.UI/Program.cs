@@ -29,6 +29,7 @@ builder.Services.AddTransient<CasoDeUsoUsuarioModificacionAdmin>();
 builder.Services.AddTransient<CasoDeUsoLogIn>();
 builder.Services.AddTransient<CasoDeUsoUsuarioConsulta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioConsultaId>();
+builder.Services.AddTransient<CasoDeUsoUsuarioModPerm>();
 
 builder.Services.AddScoped<IUsuarioRepositorio,RepositorioUsuario>();
 builder.Services.AddScoped<ITramiteRepositorio,RepositorioTramite>();
