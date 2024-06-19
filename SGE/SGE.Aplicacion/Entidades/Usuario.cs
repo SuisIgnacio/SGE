@@ -14,7 +14,7 @@ public class Usuario
     {
         this.Contraseña= Encoding.UTF8.GetBytes(cont);
     }
-    public Usuario():this("Pasto")
+    public Usuario()
     {
 
     }
