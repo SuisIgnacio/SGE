@@ -1,0 +1,33 @@
+@page "/listadoexpedientes/{Id:int}"
+@rendermode InteractiveServer 
+@inject CasoDeUsoExpedienteModificacion expMod
+@inject LoggedUser _LoggedUser
+@inject CasoDeUsoExpedienteConsultaPorID busquedaId
+@inject NavigationManager Navegador; 
+
+    <div class="dialogo-conten">
+        <div class="dialogo-contenid">
+            <h3>Ingrese los datos</h3>
+            <input placeholder="Caratula" @bind="expediente.Caratula" class="form-control"><br>
+            <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button><br>
+            <button class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
+            <VentanaError @ref="dialogo" />
+        </div>
+    </div>
+
+@code{
+    [Parameter]
+    public int Id {get;set;}
+    public Expediente expediente;
+    protected override void OnParametersSet(){
+        expediente = busquedaId.Ejecutar(Id);
+    }
+    VentanaError dialogo= null!;
+    public void Cerrar(){
+        if (expediente.Caratula!=null) expMod.Ejecutar(expediente,_LoggedUser.user);
+        Navegador.NavigateTo("listadoexpedientes");
+    }
+    public void Cancelar(){
+        Navegador.NavigateTo("listadoexpedientes");
+    }
+}
