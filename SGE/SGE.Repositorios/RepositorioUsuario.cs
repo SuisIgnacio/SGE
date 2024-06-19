@@ -8,18 +8,20 @@ public class RepositorioUsuario: IUsuarioRepositorio
     public SGEDBContext context=new SGEDBContext();
     public void UsuarioAlta(Usuario u)
     {
-        using (SHA256 mySHA256 = SHA256.Create())
+        Usuario? usuarioAuxiliar=context.Usuarios.Where(a=>a.Correo==u.Correo).SingleOrDefault();
+        if(usuarioAuxiliar==null)
         {
-            if(u.Contraseña!=null)
+            using (SHA256 mySHA256 = SHA256.Create())
             {
                 u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
             }
+            context.Add(u);
+            context.SaveChanges();
+            Usuario aux=context.Usuarios.OrderBy(u=>u.Id).Last();
+            if(aux.Id==1)aux.setAdmin();
+            context.SaveChanges();
         }
-        context.Add(u);
-        context.SaveChanges();
-        Usuario aux=context.Usuarios.OrderBy(u=>u.Id).Last();
-        if(aux.Id==1)aux.setAdmin();
-        context.SaveChanges();
+        else throw new MailException();
     }
     public void UsuarioBaja(int IdBorrar)
     {
@@ -41,8 +43,8 @@ public class RepositorioUsuario: IUsuarioRepositorio
                 u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
             }
             objetivo = u;
+            context.SaveChanges();
         }
-        context.SaveChanges();
     } 
     public void UsuarioModificacionAdmin(Usuario u)
     {
@@ -54,8 +56,8 @@ public class RepositorioUsuario: IUsuarioRepositorio
                 u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
             }
             objetivo = u;
+            context.SaveChanges();
         }
-        context.SaveChanges();
     }
     public void ModificarPermiso(Usuario u)
     {
@@ -73,7 +75,7 @@ public class RepositorioUsuario: IUsuarioRepositorio
             {
                 Contra=mySHA256.ComputeHash(Contra);
                 for (int i = 0; i<Contra.Length;i++){
-                    if (Contra[i]!= u.Contraseña[i]) return null;
+                    if (Contra[i]!= u.Contraseña[i]) throw new RepositorioException("");
                 }
                 return u;
             }
