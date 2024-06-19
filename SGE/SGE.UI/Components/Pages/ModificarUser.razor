@@ -4,6 +4,8 @@
 @rendermode InteractiveServer
 
 @inject NavigationManager Navegador;
+
+@inject CasoDeUsoUsuarioModificacion CasoUsoMod
 @inject CasoDeUsoUsuarioModificacionAdmin CasoModAdmin
 @inject CasoDeUsoUsuarioConsultaId CasoUsoBusquedaId
 @inject LoggedUser _LoggedUser
@@ -13,16 +15,17 @@
 <input placeholder="Nombre" @bind="user.Nombre" class="form-control"><br>
 <input placeholder="Apellido" @bind="user.Apellido" class="form-control"><br>
 <input placeholder="Correo" @bind="user.Correo" class="form-control"><br>
-<h5>Si no ingresas una nueva contraseña no se modificara</h5> <br>
 <input placeholder="Contraseña" @bind="contra" class="form-control"><br> 
-<button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> 
+<button class="btn btn-primary" @onclick="Cerrar">Aceptar</button> 
 <button class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
 
-<VentanaError @ref=dialogo Mensaje="Faltan completar datos"/>
+
+
+<VentanaError @ref=dialogo/>
 
 @code
 {
-    public string contra="";
+    public string? contra="";
     [Parameter]
     public int Id{get;set;}
     public Usuario user;
@@ -33,16 +36,24 @@
     VentanaError dialogo = null!;
     public void Cerrar()
     {
-        if(user.Nombre !=null && user.Apellido !=null && user.Correo!=null)
+        if(user.Nombre !=null && user.Apellido !=null && user.Correo!=null && contra!="")
         {
-            if(contra == "") CasoModAdmin.Ejecutar(_LoggedUser.user,user);
+            user.Contraseña=Encoding.UTF8.GetBytes(contra);
+            if(_LoggedUser.user.Id==1)CasoModAdmin.Ejecutar(_LoggedUser.user,user);
             else
             {
-                user.Contraseña=Encoding.UTF8.GetBytes(contra);
-                CasoModAdmin.Ejecutar(_LoggedUser.user,user);
+                if(_LoggedUser.user.Id==user.Id) CasoUsoMod.Ejecutar(user);
+                else 
+                {
+                    dialogo.Mensaje="Solo puedes modificar tus propios Datos";
+                    this.Error();
+                }
             }
             Navegador.NavigateTo("listadousuarios");
-        }else this.Error();
+        }else{
+            dialogo.Mensaje="Faltan completar datos";
+            this.Error(); 
+        } 
     }
     public void Error()
     {

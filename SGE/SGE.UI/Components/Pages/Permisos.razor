@@ -1,0 +1,119 @@
+@page "/listadousuarios/{Id:int}/permisos"
+@rendermode InteractiveServer
+
+@inject NavigationManager Navegador;
+
+@inject CasoDeUsoUsuarioModPerm CasoUsoModPerm
+@inject CasoDeUsoUsuarioConsultaId CasoUsoBusquedaId
+@inject LoggedUser _LoggedUser
+
+<h2>Bienvenido al gestor de Permisos</h2>
+
+<button class="btn btn-primary" @onclick="Cerrar">Cerrar</button>
+
+@if(!soloLectura)
+{
+    <h6>Pemiso para Altas de Expediente</h6>
+    @if(vectorPerm[(int)Permiso.ExpedienteAlta])
+    {
+        <button class="btn btn-danger" @onclick="()=>QuitarPermiso(Permiso.ExpedienteAlta)">Quitar</button>
+    }else{
+        <button class="btn btn-primary" @onclick="()=>SumarPermiso(Permiso.ExpedienteAlta)">Agregar</button>
+    }
+    
+    <h6>Pemiso para Bajas de Expediente</h6>
+    @if(vectorPerm[(int)Permiso.ExpedienteBaja])
+    {
+        <button class="btn btn-danger" @onclick="()=>QuitarPermiso(Permiso.ExpedienteBaja)">Quitar</button>
+        }else{
+        <button class="btn btn-primary" @onclick="()=>SumarPermiso(Permiso.ExpedienteBaja)">Agregar</button>
+    }
+    
+    <h6>Pemiso para Modificacion de Expediente</h6>
+    @if(vectorPerm[(int)Permiso.ExpedienteModificacion])
+    {
+        <button class="btn btn-danger" @onclick="()=>QuitarPermiso(Permiso.ExpedienteModificacion)">Quitar</button>
+    }else{
+        <button class="btn btn-primary" @onclick="()=>SumarPermiso(Permiso.ExpedienteModificacion)">Agregar</button>
+    }
+    
+    <h6>Pemiso para Altas de Tramite</h6>
+    @if(vectorPerm[(int)Permiso.TramiteAlta])
+    {
+        <button class="btn btn-danger" @onclick="()=>QuitarPermiso(Permiso.TramiteAlta)">Quitar</button>
+    }else{
+        <button class="btn btn-primary" @onclick="()=>SumarPermiso(Permiso.TramiteAlta)">Agregar</button>
+    }
+
+    <h6>Pemiso para Baja de Tramite</h6>
+    @if(vectorPerm[(int)Permiso.TramiteBaja])
+    {
+        <button class="btn btn-danger" @onclick="()=>QuitarPermiso(Permiso.TramiteBaja)">Quitar</button>
+    }else{
+        <button class="btn btn-primary" @onclick="()=>SumarPermiso(Permiso.TramiteBaja)">Agregar</button>
+    }
+    
+    <h6>Pemiso para Modificacion de Tramite</h6>
+    @if(vectorPerm[(int)Permiso.TramiteModificacion])
+    {
+        <button class="btn btn-danger" @onclick="()=>QuitarPermiso(Permiso.TramiteModificacion)">Quitar</button>
+    }else{
+        <button class="btn btn-primary" @onclick="()=>SumarPermiso(Permiso.TramiteModificacion)">Agregar</button>
+    }
+}
+
+<h3>Permisos</h3>
+@foreach(Permiso perm in listPerm)
+{
+    <h4>@perm</h4> 
+}
+
+@code
+{
+    private bool soloLectura;
+    private bool modificacion=false;
+    private bool tienePermisos;
+    public List<Permiso> listPerm=new List<Permiso>();
+    private bool[] vectorPerm=new bool[6];
+    [Parameter]
+    public int Id{get;set;}
+
+    public Usuario user;
+    protected override void OnParametersSet()
+    {
+        soloLectura=(_LoggedUser.user.Id!=1);
+        user=CasoUsoBusquedaId.Ejecutar(Id);
+        for(int i=0;i<6;i++)
+        {
+            vectorPerm[i]=false;
+        }
+        listPerm=user.permisos;
+        foreach(Permiso per in listPerm)
+        {
+            vectorPerm[(int)per]=true;
+        }
+        tienePermisos=vectorPerm[0];
+    }
+    void SumarPermiso(Permiso p)
+    {
+        modificacion=true;
+        listPerm.Add(p);
+        vectorPerm[(int)p]=true;
+    }
+    void QuitarPermiso(Permiso p)
+    {
+        modificacion=true;
+        listPerm.Remove(p);
+        vectorPerm[(int)p]=false;
+    }
+    public void Cerrar()
+    {
+        if(!soloLectura && modificacion)
+        {
+            user.permisos=listPerm;
+            CasoUsoModPerm.Ejecutar(user);
+        }
+        listPerm=user.permisos;
+        Navegador.NavigateTo("listadousuarios");
+    }
+}
