@@ -33,22 +33,18 @@
             try
             {
                 _LoggedUser.loggear(CasoLog.Ejecutar(correo,contra));
-                if(_LoggedUser.user != null)
-                {
-                    Navegador.NavigateTo("inicio");
-                }
-                else
-                {
-                    dialogo.Mensaje="La contraseña es incorrecta";
-                    this.Error();
-                } 
+                Navegador.NavigateTo("inicio");
             }
-            catch
+            catch (MailException)
             {
                 dialogo.Mensaje="El correo no existe";
                 this.Error();
             }
-            
+            catch(RepositorioException)
+            {
+                dialogo.Mensaje="La contraseña es incorrecta";
+                this.Error();
+            }
         }
     }
     public void crearUser()

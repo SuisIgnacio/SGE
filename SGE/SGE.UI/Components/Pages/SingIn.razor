@@ -14,7 +14,7 @@
             <input placeholder="Contraseña" @bind="contra" class="form-control"><br> 
             <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> 
             <button class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
-            <VentanaError @ref=dialogo Mensaje="Faltan completar datos"/>
+            <VentanaError @ref=dialogo />
         </div>
     </div>
 }
@@ -36,15 +36,23 @@
             user.Correo=correo;
             user.Nombre=nombre;
             user.Apellido=apellido;
-            CasoAlta.Ejecutar(user);
-            visible=false;
-            Navegador.NavigateTo("");
+            try
+            {
+                CasoAlta.Ejecutar(user);
+                visible=false;
+                Navegador.NavigateTo("");
+            }
+            catch
+            {
+                dialogo.Mensaje="El correo ya esta en uso";
+                dialogo.Mostrar();
+            }
         }
-        else this.Error();
-    }
-    private void Error()
-    {
-        dialogo.Mostrar();
+        else
+        {
+            dialogo.Mensaje="Faltan completar datos";
+            dialogo.Mostrar();
+        }
     }
     public void Cancelar()
     {
