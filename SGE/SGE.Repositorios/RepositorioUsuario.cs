@@ -24,14 +24,24 @@ public class RepositorioUsuario: IUsuarioRepositorio
     public void UsuarioBaja(int IdBorrar)
     {
         var userBorrar=context.Usuarios.Where(a=>a.Id == IdBorrar).SingleOrDefault();
-        if(userBorrar != null){context.Remove(userBorrar);}
-        else Console.WriteLine("El usuario no existe");
+        if(userBorrar != null)
+        {
+            context.Remove(userBorrar);
+        }
+        else throw new RepositorioException();
         context.SaveChanges();
     }
     public void UsuarioModificacion(Usuario u)
     {
         Usuario? objetivo = context.Usuarios.Where(uS => uS.Id == u.Id).SingleOrDefault();
-        if (objetivo != null) objetivo = u;
+        if (objetivo != null)
+        {
+            using (SHA256 mySHA256 = SHA256.Create())
+            {
+                u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
+            }
+            objetivo = u;
+        }
         context.SaveChanges();
     } 
     public void UsuarioModificacionAdmin(Usuario u)
@@ -41,20 +51,18 @@ public class RepositorioUsuario: IUsuarioRepositorio
         {
             using (SHA256 mySHA256 = SHA256.Create())
             {
-                if(u.Contraseña!=null)
-                {
-                    u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
-                }
+                u.Contraseña=mySHA256.ComputeHash(u.Contraseña);
             }
             objetivo = u;
-            foreach(Permiso p in u.permisos)
-            {
-                PermisoDb PermisoTabla= new PermisoDb(){permiso=p,IdUsuario=u.Id};
-                context.Add(PermisoTabla);
-            }
-            context.SaveChanges();
         }
-    } 
+        context.SaveChanges();
+    }
+    public void ModificarPermiso(Usuario u)
+    {
+        Usuario? objetivo = context.Usuarios.Where(uS => uS.Id == u.Id).SingleOrDefault();
+        objetivo.permisos=u.permisos;
+        context.SaveChanges();
+    }
     public Usuario LogIn(string correo,string contraseña)
     {
         byte[]? Contra= Encoding.UTF8.GetBytes(contraseña);
@@ -69,35 +77,18 @@ public class RepositorioUsuario: IUsuarioRepositorio
                 }
                 return u;
             }
-            
         }
         else throw new MailException("");
     }
     public List<Usuario> ConsultarPorTodos ()
     {
-        List<Usuario> lista = context.Usuarios.ToList();
-        List <PermisoDb> listPermisos = context.Permisos.ToList();
-        foreach (Usuario u in lista)
-        {
-            foreach (PermisoDb unPermiso in listPermisos){
-                if (unPermiso.IdUsuario == u.Id)
-                {
-                    u.permisos.Add(unPermiso.permiso);
-                }
-            }
-        } 
-        return lista; 
+        return context.Usuarios.ToList(); 
     }
     public Usuario ConsultarPorId(int Id)
     {
         Usuario? user=context.Usuarios.Where(u=>u.Id==Id).FirstOrDefault();
         if(user!=null)
         {
-            var lista=context.Permisos.Where(p=>p.IdUsuario==user.Id).ToList();
-            foreach(PermisoDb p in lista)
-            {
-                user.permisos.Add(p.permiso);
-            }
             return user;
         }
         else throw new RepositorioException("El usuario no Existe");
