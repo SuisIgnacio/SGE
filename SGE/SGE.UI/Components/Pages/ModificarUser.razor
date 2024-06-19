@@ -15,6 +15,7 @@
 <input placeholder="Nombre" @bind="user.Nombre" class="form-control"><br>
 <input placeholder="Apellido" @bind="user.Apellido" class="form-control"><br>
 <input placeholder="Correo" @bind="user.Correo" class="form-control"><br>
+<h6>La contraseña debe contener al menos un numero y una mayuscula</h6>
 <input placeholder="Contraseña" @bind="contra" class="form-control"><br> 
 <button class="btn btn-primary" @onclick="Cerrar">Aceptar</button> 
 <button class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
@@ -36,20 +37,33 @@
     VentanaError dialogo = null!;
     public void Cerrar()
     {
-        if(user.Nombre !=null && user.Apellido !=null && user.Correo!=null && contra!="")
+        if(user.Nombre !=null && user.Apellido !=null && user.Correo!=null && contra!=null)
         {
             user.Contraseña=Encoding.UTF8.GetBytes(contra);
-            if(_LoggedUser.user.Id==1)CasoModAdmin.Ejecutar(_LoggedUser.user,user);
-            else
+            try
             {
-                if(_LoggedUser.user.Id==user.Id) CasoUsoMod.Ejecutar(user);
-                else 
+                if(_LoggedUser.user.Id==1) CasoModAdmin.Ejecutar(_LoggedUser.user,user,contra);
+                else
                 {
-                    dialogo.Mensaje="Solo puedes modificar tus propios Datos";
-                    this.Error();
+                    if(_LoggedUser.user.Id==user.Id) CasoUsoMod.Ejecutar(user,contra);
+                    else 
+                    {
+                        dialogo.Mensaje="Solo puedes modificar tus propios Datos";
+                        this.Error();
+                    }
                 }
+                Navegador.NavigateTo("listadousuarios");
+            } 
+            catch(AdminException)
+            {
+                dialogo.Mensaje="Usted debe ser admin para modificar a otros usuarios";
+                this.Error();
             }
-            Navegador.NavigateTo("listadousuarios");
+            catch(ValidacionException)
+            {
+                dialogo.Mensaje="La contraseña no cumple con los requisitos necesarios";
+                this.Error();
+            }
         }else{
             dialogo.Mensaje="Faltan completar datos";
             this.Error(); 

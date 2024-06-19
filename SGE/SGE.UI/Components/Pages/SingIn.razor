@@ -11,6 +11,7 @@
             <input placeholder="Nombre" @bind="nombre" class="form-control"><br>
             <input placeholder="Apellido" @bind="apellido" class="form-control"><br>
             <input placeholder="Correo" @bind="correo" class="form-control"><br>
+            <h6>La contraseña debe contener al menos un numero y una mayuscula</h6>
             <input placeholder="Contraseña" @bind="contra" class="form-control"><br> 
             <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> 
             <button class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
@@ -38,13 +39,18 @@
             user.Apellido=apellido;
             try
             {
-                CasoAlta.Ejecutar(user);
+                CasoAlta.Ejecutar(user,contra);
                 visible=false;
                 Navegador.NavigateTo("");
             }
-            catch
+            catch(MailException)
             {
                 dialogo.Mensaje="El correo ya esta en uso";
+                dialogo.Mostrar();
+            }
+            catch (ValidacionException)
+            {
+                dialogo.Mensaje="La contraseña no cumple con los requisitos(un numero y una mayuscula)";
                 dialogo.Mostrar();
             }
         }
