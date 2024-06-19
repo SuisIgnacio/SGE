@@ -8,12 +8,11 @@ public class Usuario
     public string? Nombre { get; set;}
     public string? Apellido { get; set;}
     public string? Correo { get; set;}
-    public string Contraseña { get; set;}
+    public byte[]? Contraseña { get; set;}
     public List<Permiso> permisos { get; set;}=new List<Permiso>();
-    public bool Admin {get; private set;} =false;
     public Usuario(string cont)
     {
-        this.Contraseña= cont;
+        this.Contraseña= Encoding.UTF8.GetBytes(cont);
     }
     public Usuario():this("Pasto")
     {
@@ -21,7 +20,6 @@ public class Usuario
     }
     public void setAdmin()
     {
-        Admin = true;
         permisos.Add(Permiso.ExpedienteModificacion);permisos.Add(Permiso.ExpedienteBaja);permisos.Add(Permiso.ExpedienteAlta);
         permisos.Add(Permiso.TramiteModificacion);permisos.Add(Permiso.TramiteBaja);permisos.Add(Permiso.TramiteAlta);
     }
