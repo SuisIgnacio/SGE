@@ -10,7 +10,33 @@
         <div class="dialogo-contenid">
             <h3>Ingrese los datos</h3>
             <input placeholder="Contenido" @bind="_tramite.Contenido" class="form-control"><br>
-            <button class="btn btn-primary" type="espacio" @onclick="Cerrar"> Aceptar </button><br> 
+
+           <h3>Etiqueta de tramite actual @_tramite.Etiqueta</h3>
+            @if (_tramite.Etiqueta != EtiquetaTramite.EscritoPresentado)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.EscritoPresentado)"> Escrito Presentado </button>  
+            }
+            @if (_tramite.Etiqueta != EtiquetaTramite.PaseAEstudio)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.PaseAEstudio)"> Pase a Estudio </button>  
+            }
+            @if (_tramite.Etiqueta != EtiquetaTramite.Despacho)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.Despacho)"> Despacho </button>  
+            }
+             @if (_tramite.Etiqueta != EtiquetaTramite.Resolucion)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.Resolucion)"> Resolucion </button>  
+            }
+             @if (_tramite.Etiqueta != EtiquetaTramite.Notificacion)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.Notificacion)"> Notificacion </button>  
+            }
+             @if (_tramite.Etiqueta != EtiquetaTramite.PaseAlArchivo)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.PaseAlArchivo)"> Pase al Archivo </button>  
+            }
+           <br> <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> 
             <button class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
             <VentanaError @ref="dialogo" />
         </div>
@@ -65,6 +91,10 @@ VentanaError dialogo= null!;
     public void Cancelar(){
         Navegador.NavigateTo("listadotramites");
     }
+    public void SetEtiqueta (EtiquetaTramite et)
+{
+    _tramite.Etiqueta = et ;
+}
 }
 
 

@@ -11,7 +11,32 @@
             <input placeholder="ID Expediente" @bind="_IDExpediente" class="form-control"><br>
             <h3>Ingrese contenido del Tramite</h3>
             <input placeholder="Contenido" @bind="_Contenido" class="form-control"><br>
-            <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> <br>
+            <h3>Etiqueta de tramite actual @_Etiqueta</h3>
+            @if (_Etiqueta != EtiquetaTramite.EscritoPresentado)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.EscritoPresentado)"> Escrito Presentado </button>  
+            }
+            @if (_Etiqueta != EtiquetaTramite.PaseAEstudio)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.PaseAEstudio)"> Pase a Estudio </button>  
+            }
+            @if (_Etiqueta != EtiquetaTramite.Despacho)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.Despacho)"> Despacho </button>  
+            }
+             @if (_Etiqueta != EtiquetaTramite.Resolucion)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.Resolucion)"> Resolucion </button>  
+            }
+             @if (_Etiqueta != EtiquetaTramite.Notificacion)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.Notificacion)"> Notificacion </button>  
+            }
+             @if (_Etiqueta != EtiquetaTramite.PaseAlArchivo)
+            {
+                <button class="btn btn-primary" @onclick="()=>SetEtiqueta(EtiquetaTramite.PaseAlArchivo)"> Pase al Archivo </button>  
+            }
+           <br> <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> 
             <VentanaError @ref=dialogo />
         </div>
     </div>
@@ -19,23 +44,36 @@
 @code{
 
 public int _IDExpediente ; 
-public string? _Contenido ;
+public string? _Contenido ;  
+public EtiquetaTramite _Etiqueta = EtiquetaTramite.EscritoPresentado ;
 public bool visible = true;
 VentanaError dialogo=null!; 
 
 public void Cerrar () 
 {
-    try {
-        Tramite _tramite = new Tramite (){IDExpediente = _IDExpediente , Etiqueta = EtiquetaTramite.Notificacion, Contenido = _Contenido, FechaCreacion=DateTime.Now, 
-                                          FechaActualizacion=DateTime.Now,IDUsuario=_LoggedUser.user.Id,};
-        altaTram.Ejecutar(_tramite, _LoggedUser.user);
-        visible=false;
-        Navegador.NavigateTo("listadotramites");
-    } 
-    catch 
-    {
-          this.Error() ; 
-    }
+   
+        try {
+            Tramite _tramite = new Tramite (){IDExpediente = _IDExpediente , Etiqueta = _Etiqueta, Contenido = _Contenido, FechaCreacion=DateTime.Now, 
+                                            FechaActualizacion=DateTime.Now,IDUsuario=_LoggedUser.user.Id,};
+            altaTram.Ejecutar(_tramite, _LoggedUser.user);
+            
+            visible=false;
+            Navegador.NavigateTo("listadotramites");
+        } 
+        catch (AutorizacionException)
+        {
+            
+            this.Error1() ; 
+        }
+        catch  (RepositorioException)
+        {
+            this.Error() ;
+        }
+        catch (ValidacionException)
+        {
+            this.Error2() ;
+        }
+    
 }
 
 private void Error () 
@@ -43,6 +81,21 @@ private void Error ()
     dialogo.Mensaje = "el id de expediente no existe" ;
     dialogo.Mostrar() ;
 }
+private void Error1 () 
+{
+    dialogo.Mensaje = "No cuenta con el permiso de dar de alta un tramite" ;
+    dialogo.Mostrar() ;
+}
 
+private void Error2 () 
+{
+    dialogo.Mensaje = "Ingrese el contenido por favor" ;
+    dialogo.Mostrar() ;    
+}
+
+public void SetEtiqueta (EtiquetaTramite et)
+{
+    _Etiqueta = et ;
+}
 }
 
