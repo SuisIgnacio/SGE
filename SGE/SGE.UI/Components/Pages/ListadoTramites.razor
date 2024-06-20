@@ -1,0 +1,85 @@
+@page "/listadotramites"
+@rendermode InteractiveServer
+@inject LoggedUser _LoggedUser
+@inject CasoDeUsoTramiteConsultaPorTodos ListarTramitesUseCase
+@inject NavigationManager Navegador ;
+
+
+<h1> Bienvenido @_LoggedUser.user.Nombre al menu de tramites</h1>
+
+<h3>Seleccione que Accion deseaba realizar </h3>
+
+<button class="btn btn-primary" @onclick="mostrar">Listar los Tramites</button>
+<button class="btn btn-primary" @onclick="NavAlta">Alta de un Tramite</button>
+
+
+
+@if(visible){
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>IdExpediente</th>
+                <th>Etiqueta</th>
+                <th>Contenido</th>
+                <th>FechaCreacion</th>
+                <th>FechaActualizacion</th>
+                <th>IDUsuario</th>
+        </tr> 
+        </thead>
+        <tbody>
+             @if (_lista != null){
+                @foreach (var tram in _lista)
+                {
+                    <tr>
+                        <td>@tram.Id</td>
+                        <td>@tram.IDExpediente</td>
+                        <td>@tram.Etiqueta</td>
+                        <td>@tram.Contenido</td>
+                        <td>@tram.FechaCreacion</td>
+                        <td>@tram.FechaActualizacion</td>
+                        <td>@tram.IDUsuario</td> 
+                        <td>
+                        <button class="btn btn-primary" @onclick="()=>ModificarTramite(tram)">Modificar</button>
+                        <button class="btn btn-danger" @onclick="()=>ConfirmarEliminacion(tram)">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+  
+  public bool visible=false;
+  List<Tramite> _lista ; 
+    protected override void OnInitialized () 
+    {
+        _lista =    ListarTramitesUseCase.Ejecutar() ;
+    }  
+
+    public void mostrar(){
+        visible=!visible;
+        //StateHasChanged();
+    }
+
+    public void NavAlta () 
+    {
+        Navegador.NavigateTo("altaTramite");
+    }
+    private void ConfirmarEliminacion(Tramite _TramiteParaEliminar)
+    {
+
+    }
+ public void ModificarTramite(Tramite tram )
+    {
+        Navegador.NavigateTo($"listadotramites/{tram.Id}");
+    }
+    
+}
+
+
+
+

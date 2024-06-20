@@ -1,0 +1,48 @@
+@page "/altaTramite"
+@rendermode InteractiveServer 
+@inject CasoDeUsoTramiteAlta altaTram
+@inject LoggedUser _LoggedUser
+@inject NavigationManager Navegador;
+
+
+    <div class="dialogo-conten">
+        <div class="dialogo-contenid">
+            <h3>Ingrese ID de expediente</h3>
+            <input placeholder="ID Expediente" @bind="_IDExpediente" class="form-control"><br>
+            <h3>Ingrese contenido del Tramite</h3>
+            <input placeholder="Contenido" @bind="_Contenido" class="form-control"><br>
+            <button class="btn btn-primary" @onclick="Cerrar"> Aceptar </button> <br>
+            <VentanaError @ref=dialogo />
+        </div>
+    </div>
+
+@code{
+
+public int _IDExpediente ; 
+public string? _Contenido ;
+public bool visible = true;
+VentanaError dialogo=null!; 
+
+public void Cerrar () 
+{
+    try {
+        Tramite _tramite = new Tramite (){IDExpediente = _IDExpediente , Etiqueta = EtiquetaTramite.Notificacion, Contenido = _Contenido, FechaCreacion=DateTime.Now, 
+                                          FechaActualizacion=DateTime.Now,IDUsuario=_LoggedUser.user.Id,};
+        altaTram.Ejecutar(_tramite, _LoggedUser.user);
+        visible=false;
+        Navegador.NavigateTo("listadotramites");
+    } 
+    catch 
+    {
+          this.Error() ; 
+    }
+}
+
+private void Error () 
+{
+    dialogo.Mensaje = "el id de expediente no existe" ;
+    dialogo.Mostrar() ;
+}
+
+}
+

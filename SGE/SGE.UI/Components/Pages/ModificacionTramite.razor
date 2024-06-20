@@ -1,0 +1,46 @@
+@page "/listadotramites/{Id:int}"
+@rendermode InteractiveServer 
+@inject CasoDeUsoTramiteModificacion tramMod
+@inject LoggedUser _LoggedUser
+@inject CasoDeUsoTramiteConsultaPorID busquedaId
+@inject NavigationManager Navegador; 
+
+
+    <div class="dialogo-conten">
+        <div class="dialogo-contenid">
+            <h3>Ingrese los datos</h3>
+            <input placeholder="Contenido" @bind="_tramite.Contenido" class="form-control"><br>
+            <button class="btn btn-primary" type="espacio" @onclick="Cerrar"> Aceptar </button><br> 
+            <button class="btn btn-secondary" @onclick="Cancelar">Cancelar</button>
+            <VentanaError @ref="dialogo" />
+        </div>
+    </div>
+
+@code{
+
+[Parameter]
+public int Id {get;set;}
+    public Tramite _tramite;
+    protected override void OnParametersSet(){
+        _tramite = busquedaId.Ejecutar(Id) ;  
+    }
+
+
+ VentanaError dialogo= null!;
+
+    public void Cerrar(){
+        if (_tramite.Contenido!=null) {
+            _tramite.FechaActualizacion = DateTime.Now ;
+            tramMod.Ejecutar(_tramite,_LoggedUser.user);
+        }
+        Navegador.NavigateTo("listadotramites");
+    }
+
+    public void Cancelar(){
+        Navegador.NavigateTo("listadotramites");
+    }
+}
+
+
+
+
