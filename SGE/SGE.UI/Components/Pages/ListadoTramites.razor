@@ -10,6 +10,7 @@
 <h3>Seleccione que Accion deseaba realizar </h3>
 
 <button class="btn btn-primary" @onclick="mostrar">Listar los Tramites</button>
+<button class="btn btn-primary" @onclick="NavBaja">Baja de un Tramite</button>
 <button class="btn btn-primary" @onclick="NavAlta">Alta de un Tramite</button>
 
 
@@ -73,7 +74,12 @@
     {
 
     }
- public void ModificarTramite(Tramite tram )
+
+    public void NavBaja(){
+        Navegador.NavigateTo("bajaTramite"); 
+    }
+
+     public void ModificarTramite(Tramite tram )
     {
         Navegador.NavigateTo($"listadotramites/{tram.Id}");
     }
