@@ -57,10 +57,8 @@ VentanaError dialogo= null!;
     }
 
     public void Cerrar(){
-        if ((_tramite.Contenido != null) & (_tramite.Contenido != "") ){
-            _tramite.FechaActualizacion = DateTime.Now ;
-
             try {
+             _tramite.FechaActualizacion = DateTime.Now ;
              tramMod.Ejecutar(_tramite,_LoggedUser.user);
              Navegador.NavigateTo($"listadotramites");
             }
@@ -69,12 +67,12 @@ VentanaError dialogo= null!;
                 this.Error () ;
                 Navegador.NavigateTo($"listadotramites/{Id}");
             }
-        }
-        else
-        {
-            this.Error1 () ;
-             Navegador.NavigateTo($"listadotramites/{Id}");
-        }
+            catch
+            {
+                this.Error1() ;
+                Navegador.NavigateTo($"listadotramites/{Id}");
+            }
+        
 
     }
     private void Error () 
