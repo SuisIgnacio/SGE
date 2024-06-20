@@ -4,7 +4,7 @@ public class ValidadorTramites
 {
     public bool ValidarTramite(Tramite t)
     {
-        if(t.Contenido == "")
+        if((t.Contenido ==null) && (t.Contenido == ""))
         {
             string mensaje="A fallado la validacion";
             return false;
