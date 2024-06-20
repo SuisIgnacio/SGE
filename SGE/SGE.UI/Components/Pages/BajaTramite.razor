@@ -10,15 +10,43 @@
             <input placeholder="Id" @bind="id" class="form-control">
             <button class="btn btn-primary" @onclick="Aceptar">Aceptar</button>
             <VentanaError @ref=dialogo />
+            <DialogoConfirmacion @ref=dialogoBorrar />
         </div>
  </div>
 
 @code{
     public int id; 
     VentanaError dialogo=null!;
-    
+    DialogoConfirmacion dialogoBorrar= null!; 
+
     public void Aceptar (){
-        bajaTramite.Ejecutar(id, _LoggedUser.user); 
-        Navegador.NavigateTo("listadotramites");
+        dialogoBorrar.Mensaje= "¿Estas seguro que quieres eliminar este tramite?"; 
+        dialogoBorrar.OnConfirmado=EventCallback.Factory.Create(this,()=>borrarTramite());
+        dialogoBorrar.Mostrar();  
+    }
+
+    public void borrarTramite(){
+        try {
+
+            bajaTramite.Ejecutar(id, _LoggedUser.user); 
+            Navegador.NavigateTo("listadotramites");
+        }
+        catch (AutorizacionException){
+            this.Error();
+        } 
+        catch (RepositorioException){
+            this.Error1();
+        }
+    }
+
+    private void Error(){
+        dialogo.Mensaje = "No contas con los permisos necesarios" ;
+        dialogo.Mostrar() ;
+    }
+
+    private void Error1(){
+        dialogo.Mensaje = "El Id de tramite no existe" ;
+        dialogo.Mostrar() ;
     }
 }
+
