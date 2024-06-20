@@ -18,22 +18,48 @@
 
 @code{
 
-[Parameter]
+[Parameter] 
 public int Id {get;set;}
+//public string? _Contenido ;
+
+VentanaError dialogo= null!;
+
     public Tramite _tramite;
     protected override void OnParametersSet(){
-        _tramite = busquedaId.Ejecutar(Id) ;  
+            _tramite = busquedaId.Ejecutar(Id) ;  
+
     }
 
-
- VentanaError dialogo= null!;
-
     public void Cerrar(){
-        if (_tramite.Contenido!=null) {
+        if ((_tramite.Contenido != null) & (_tramite.Contenido != "") ){
             _tramite.FechaActualizacion = DateTime.Now ;
-            tramMod.Ejecutar(_tramite,_LoggedUser.user);
+
+            try {
+             tramMod.Ejecutar(_tramite,_LoggedUser.user);
+             Navegador.NavigateTo($"listadotramites");
+            }
+            catch (AutorizacionException)
+            {
+                this.Error () ;
+                Navegador.NavigateTo($"listadotramites/{Id}");
+            }
         }
-        Navegador.NavigateTo("listadotramites");
+        else
+        {
+            this.Error1 () ;
+             Navegador.NavigateTo($"listadotramites/{Id}");
+        }
+
+    }
+    private void Error () 
+    {
+            dialogo.Mensaje = "No cuenta con el permiso de modificar tramites" ;
+            dialogo.Mostrar() ;
+    }
+    private void Error1 () 
+    {
+            dialogo.Mensaje = "Ingrese contenido por favor" ;
+            dialogo.Mostrar() ;
     }
 
     public void Cancelar(){

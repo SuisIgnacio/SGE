@@ -16,10 +16,9 @@
 @code{
     public string Caratula;
     public bool visible = true;
-
     VentanaError dialogo=null!;
     public void Cerrar(){
-        if (Caratula != null){
+        try {
             Expediente exp = new Expediente (){Caratula=Caratula, FechaActualizacion=DateTime.Now, 
                                             FechaInicio=DateTime.Now,IDUsuario=_LoggedUser.user.Id,
                                             Estado= EstadoExpediente.RecienIniciado};
@@ -27,5 +26,25 @@
             visible=false;
             Navegador.NavigateTo("listadoexpedientes");
         }
+        catch (ValidacionException) 
+        {
+            this.Error() ;
+        }
+        catch (AutorizacionException) 
+        {
+            this.Error1 () ;
+        }
     }
+
+    private void Error () 
+    {
+        dialogo.Mensaje = "Ingrese una Caratula por favor" ;
+        dialogo.Mostrar() ;
+    }
+    private void Error1 () 
+    {
+        dialogo.Mensaje = "No cuenta con el permido de dar alta un Expediente" ;
+        dialogo.Mostrar() ;
+    }
+
 }
