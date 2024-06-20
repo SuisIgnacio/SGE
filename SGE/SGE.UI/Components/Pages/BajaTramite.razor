@@ -1,0 +1,24 @@
+@page "/bajaTramite"
+@rendermode InteractiveServer
+@inject CasoDeUsoTramiteBaja bajaTramite
+@inject LoggedUser _LoggedUser
+@inject NavigationManager Navegador;
+
+<div class="dialogo-conten">
+        <div class="dialogo-contenid">
+            <h3>Ingrese ID a eliminar</h3>
+            <input placeholder="Id" @bind="id" class="form-control">
+            <button class="btn btn-primary" @onclick="Aceptar">Aceptar</button>
+            <VentanaError @ref=dialogo />
+        </div>
+ </div>
+
+@code{
+    public int id; 
+    VentanaError dialogo=null!;
+    
+    public void Aceptar (){
+        bajaTramite.Ejecutar(id, _LoggedUser.user); 
+        Navegador.NavigateTo("listadotramites");
+    }
+}
