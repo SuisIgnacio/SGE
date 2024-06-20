@@ -1,9 +1,0 @@
-namespace SGE.Aplicacion;
-public class CasoDeUsoUsuarioConsulta(IRepositorioUsuario repo)
-{
-    public List<Usuario> Ejecutar(Usuario u){
-        if (u.admin){
-            return repo.ConsultarPorTodos(); 
-        }
-    }
-}
