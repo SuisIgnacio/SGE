@@ -6,8 +6,15 @@ public class CasoDeUsoExpedienteAlta (IExpedienteRepositorio repo)
     {
         ServicioAutorizacion s=new ServicioAutorizacion();
         ValidadorExpedientes v= new ValidadorExpedientes();
-        if(s.autoriza(u.permisos,Permiso.ExpedienteAlta) && v.ValidarExpediente(e))
-        {repo.AltaExpediente(e);}
+        if(s.autoriza(u.permisos,Permiso.ExpedienteAlta) ){
+              if ( v.ValidarExpediente(e) ){
+                 repo.AltaExpediente(e);
+              }
+              else
+              {
+                throw new ValidacionException () ;
+              }
+        }
         else throw new AutorizacionException("El usuario no cuenta con permisos");
     } 
 }
