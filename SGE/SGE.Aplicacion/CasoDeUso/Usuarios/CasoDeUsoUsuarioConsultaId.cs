@@ -4,13 +4,6 @@ public class CasoDeUsoUsuarioConsultaId(IUsuarioRepositorio repo)
 {
     public Usuario Ejecutar(int Id)
     {
-        try
-        {
-            return repo.ConsultarPorId(Id);
-        }
-        catch
-        {
-            return null;
-        }
+        return repo.ConsultarPorId(Id);
     }
 }
