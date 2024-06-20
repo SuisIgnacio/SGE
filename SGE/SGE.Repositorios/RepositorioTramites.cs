@@ -37,6 +37,11 @@ public class RepositorioTramite:DbContext, ITramiteRepositorio
         if (objetivo != null) objetivo = t;
         context.SaveChanges(); 
     }
+     public List<Tramite> TramiteConsultaPorTodos ()
+    {
+        List<Tramite> listaTram = context.Tramites.ToList() ;
+        return listaTram ;
+    }
      public Tramite TramiteConsultaPorID (int id) 
     {
         Tramite? tram = context.Tramites.Where(tr => tr.Id == id).SingleOrDefault();
