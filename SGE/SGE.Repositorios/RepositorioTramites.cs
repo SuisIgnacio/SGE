@@ -24,7 +24,7 @@ public class RepositorioTramite:DbContext, ITramiteRepositorio
             context.Add(t);
             e.AgregarTramite(t);
             context.SaveChanges();
-        }
+        } else throw new RepositorioException(); 
     }
     public List<Tramite> TramiteConsultaPorEtiqueta(EtiquetaTramite i)
     {
