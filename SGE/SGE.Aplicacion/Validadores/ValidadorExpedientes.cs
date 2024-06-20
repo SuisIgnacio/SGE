@@ -4,7 +4,7 @@ public class ValidadorExpedientes
 {
     public bool ValidarExpediente(Expediente e)
     {
-        if(e.Caratula == "")
+        if((e.Caratula==null) || (e.Caratula == ""))
         {
             string mensaje="A fallado la validacion";
             return false;
