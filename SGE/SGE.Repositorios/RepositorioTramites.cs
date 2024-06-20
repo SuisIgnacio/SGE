@@ -11,9 +11,9 @@ public class RepositorioTramite:DbContext, ITramiteRepositorio
         if(tramiteBorrar!=null)
         {
             context.Remove(tramiteBorrar);
-            Console.WriteLine("se elimino el tramite");
+            
         }
-        else Console.WriteLine("El tramite no existe");
+        else throw new RepositorioException("");
         context.SaveChanges();
     }
     public void TramiteAlta(Tramite t)
