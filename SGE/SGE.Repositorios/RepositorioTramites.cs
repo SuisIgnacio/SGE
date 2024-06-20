@@ -31,10 +31,16 @@ public class RepositorioTramite:DbContext, ITramiteRepositorio
         List<Tramite> listaTramites = context.Tramites.Where(t => t.Etiqueta == i).ToList();
         return listaTramites ;
     }
-        public void TramiteModificacion(Tramite t)
+    public void TramiteModificacion(Tramite t)
     {
         Tramite? objetivo = context.Tramites.Where(T => T.Id == t.Id).SingleOrDefault();
         if (objetivo != null) objetivo = t;
         context.SaveChanges(); 
+    }
+     public Tramite TramiteConsultaPorID (int id) 
+    {
+        Tramite? tram = context.Tramites.Where(tr => tr.Id == id).SingleOrDefault();
+        if (tram!= null) { return tram ;}
+        else throw new RepositorioException();
     }
 }
