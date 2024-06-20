@@ -2,7 +2,7 @@ namespace SGE.Repositorios;
 using SGE.Aplicacion;
 using Microsoft.EntityFrameworkCore;
 
-public class RepositorioTramite:DbContext, ITramiteRepositorio
+public class RepositorioTramite:DbContext, ITramiteRepositorio 
 {
     public SGEDBContext context=new SGEDBContext();
     public void TramiteBaja(int IDTramite)
@@ -10,10 +10,12 @@ public class RepositorioTramite:DbContext, ITramiteRepositorio
         var tramiteBorrar=context.Tramites.Where(a=>a.Id == IDTramite).SingleOrDefault();
         if(tramiteBorrar!=null)
         {
+            Expediente? expObj = context.Expedientes.Where(e => e.Id == tramiteBorrar.IDExpediente).FirstOrDefault();
             context.Remove(tramiteBorrar);
-            
+            Console.WriteLine("se elimino el tramite");
+            if (expObj != null && expObj.Tramites.Last()== tramiteBorrar) new ServicioActualizacionEstado().ActualizacionEstado(expObj); 
         }
-        else throw new RepositorioException("");
+        else Console.WriteLine("El tramite no existe");
         context.SaveChanges();
     }
     public void TramiteAlta(Tramite t)
@@ -23,8 +25,9 @@ public class RepositorioTramite:DbContext, ITramiteRepositorio
         {
             context.Add(t);
             e.AgregarTramite(t);
+            new ServicioActualizacionEstado().ActualizacionEstado(e);
             context.SaveChanges();
-        } else throw new RepositorioException(); 
+        }
     }
     public List<Tramite> TramiteConsultaPorEtiqueta(EtiquetaTramite i)
     {
@@ -34,10 +37,15 @@ public class RepositorioTramite:DbContext, ITramiteRepositorio
     public void TramiteModificacion(Tramite t)
     {
         Tramite? objetivo = context.Tramites.Where(T => T.Id == t.Id).SingleOrDefault();
-        if (objetivo != null) objetivo = t;
-        context.SaveChanges(); 
+        if (objetivo != null) 
+        {
+            objetivo = t;
+            Expediente? objetivoE = context.Expedientes.Where(T => T.Id == t.IDExpediente && t.Id ==objetivo.Id).FirstOrDefault();
+            if (objetivoE != null && objetivoE.Tramites.Last()==objetivo) new ServicioActualizacionEstado().ActualizacionEstado(objetivoE);
+            context.SaveChanges();
+        }
     }
-     public List<Tramite> TramiteConsultaPorTodos ()
+    public List<Tramite> TramiteConsultaPorTodos ()
     {
         List<Tramite> listaTram = context.Tramites.ToList() ;
         return listaTram ;
